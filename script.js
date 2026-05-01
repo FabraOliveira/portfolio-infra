@@ -18,3 +18,50 @@ if (button) {
       localStorage.setItem("theme", newTheme);
     });
 }
+
+const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
+
+if (menuToggle && navMenu) {
+  function closeMenu() {
+    menuToggle.classList.remove("active");
+    navMenu.classList.remove("active");
+    menuToggle.setAttribute("aria-expanded", "false");
+  }
+
+  function openMenu() {
+    menuToggle.classList.add("active");
+    navMenu.classList.add("active");
+    menuToggle.setAttribute("aria-expanded", "true");
+  }
+
+  menuToggle.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const isOpen = menuToggle.classList.contains("active");
+
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  navMenu.querySelectorAll("a, button").forEach((item) => {
+    item.addEventListener("click", closeMenu);
+  });
+
+  document.addEventListener("click", (event) => {
+    const clickedInsideMenu = navMenu.contains(event.target);
+    const clickedToggle = menuToggle.contains(event.target);
+
+    if (!clickedInsideMenu && !clickedToggle) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMenu();
+    }
+  });
+}
