@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Case técnico da Integração de Infraestrutura UniToledo Wyden: redes, cabeamento estruturado, switches, domínio, GPO e padronização de ambiente corporativo." />
+  <title>Integração de Infraestrutura — UniToledo Wyden</title>
+  <link rel="icon" type="image/png" href="../../img/Icone-aba.png" />
+
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: #0d1b2e;
+      --card: #10233a;
+      --card-2: #132944;
+      --text: #eaf2ff;
+      --muted: #9fb2ca;
+      --line: rgba(255, 255, 255, 0.10);
+      --accent: #52a8ff;
+      --accent-2: #78e0c4;
+      --danger: #ffb86b;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --radius: 22px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(82, 168, 255, 0.18), transparent 32%),
+        radial-gradient(circle at 75% 15%, rgba(120, 224, 196, 0.12), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .container {
+      width: min(100% - 32px, var(--max));
+      margin-inline: auto;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 17, 31, 0.82);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-content {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #06111f;
+      font-weight: 900;
+      box-shadow: 0 10px 30px rgba(82, 168, 255, 0.25);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-back {
+      padding: 9px 14px;
+      border-radius: 12px;
+      color: #06111f !important;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      font-weight: 800;
+      box-shadow: 0 10px 28px rgba(82, 168, 255, 0.22);
+      transition: transform 0.2s ease;
+    }
+
+    .nav-back:hover {
+      color: #06111f !important;
+      transform: translateY(-2px);
+    }
+
+    .hero {
+      padding: 78px 0 42px;
+    }
+
+    .case-hero {
+      position: relative;
+      overflow: hidden;
+      padding: 42px;
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 12px);
+      background:
+        linear-gradient(135deg, rgba(82, 168, 255, 0.16), rgba(120, 224, 196, 0.06)),
+        rgba(16, 35, 58, 0.72);
+      box-shadow: var(--shadow);
+    }
+
+    .case-hero::before {
+      content: "";
+      position: absolute;
+      inset: auto -80px -160px auto;
+      width: 360px;
+      height: 360px;
+      border-radius: 999px;
+      background: rgba(120, 224, 196, 0.12);
+      filter: blur(18px);
+    }
+
+    .case-hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 880px;
+    }
+
+    .case-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .case-pill {
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      background: rgba(7, 17, 31, 0.46);
+      color: #cfe6ff;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .case-stats {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .case-stat {
+      min-height: 128px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(7, 17, 31, 0.62);
+      backdrop-filter: blur(10px);
+    }
+
+    .case-stat strong {
+      display: block;
+      font-size: clamp(1.8rem, 4vw, 2.65rem);
+      line-height: 1;
+      color: var(--accent-2);
+      letter-spacing: -0.05em;
+    }
+
+    .case-stat span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 34px;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(82, 168, 255, 0.35);
+      border-radius: 999px;
+      color: #cfe6ff;
+      background: rgba(82, 168, 255, 0.10);
+      font-size: 0.9rem;
+    }
+
+    h1 {
+      max-width: 760px;
+      font-size: clamp(2.3rem, 6vw, 5rem);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+      margin-bottom: 22px;
+    }
+
+    .hero p {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 700;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(82, 168, 255, 0.65);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #06111f;
+      border: none;
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 420px;
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 8px);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)),
+        var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      opacity: 0.9;
+    }
+
+    .image-placeholder {
+      min-height: 260px;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      background:
+        linear-gradient(135deg, rgba(82, 168, 255, 0.14), rgba(120, 224, 196, 0.08)),
+        repeating-linear-gradient(45deg, rgba(255,255,255,0.04) 0 8px, transparent 8px 16px),
+        var(--card-2);
+      color: #cfe6ff;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .hero-card .image-placeholder {
+      height: 420px;
+      min-height: 420px;
+      font-size: 1.15rem;
+    }
+
+    .floating-info {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .mini-stat {
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(7, 17, 31, 0.78);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+
+    .mini-stat strong {
+      display: block;
+      font-size: 1.2rem;
+      color: var(--accent-2);
+    }
+
+    .mini-stat span {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    section {
+      padding: 54px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 26px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+    }
+
+    .section-head p {
+      max-width: 560px;
+      color: var(--muted);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(16, 35, 58, 0.72);
+      box-shadow: 0 16px 50px rgba(0,0,0,0.18);
+    }
+
+    .card .icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+      border-radius: 14px;
+      background: rgba(82, 168, 255, 0.14);
+      color: var(--accent-2);
+      font-size: 1.25rem;
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+      font-size: 1.12rem;
+    }
+
+    .card p,
+    .card li {
+      color: var(--muted);
+      font-size: 0.97rem;
+    }
+
+    .problem-solution {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .list {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .check {
+      flex: 0 0 auto;
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(120, 224, 196, 0.16);
+      color: var(--accent-2);
+      font-weight: 900;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 16px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 22px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: rgba(82, 168, 255, 0.22);
+    }
+
+    .step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .step-number {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #06111f;
+      font-weight: 900;
+      z-index: 1;
+    }
+
+    .step-content {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(16, 35, 58, 0.68);
+    }
+
+    .step-content h3 {
+      margin-bottom: 6px;
+    }
+
+    .step-content p {
+      color: var(--muted);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .gallery-item {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      cursor: pointer;
+      transition: transform 0.22s ease, border-color 0.22s ease;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-4px);
+      border-color: rgba(82, 168, 255, 0.55);
+    }
+
+    .gallery-item img,
+    .gallery-item .image-placeholder {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+    }
+
+    .gallery-caption {
+      padding: 16px;
+    }
+
+    .gallery-caption strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .gallery-caption span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .photo-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+    }
+
+    .photo-card .image-placeholder,
+    .photo-card img {
+      width: 100%;
+      height: 310px;
+      object-fit: cover;
+    }
+
+    .photo-info {
+      padding: 18px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: #d5e7ff;
+      font-size: 0.86rem;
+    }
+
+    .cta {
+      text-align: center;
+      padding: 56px 24px;
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 8px);
+      background:
+        radial-gradient(circle at top, rgba(82, 168, 255, 0.20), transparent 38%),
+        rgba(16, 35, 58, 0.78);
+      box-shadow: var(--shadow);
+    }
+
+    .cta h2 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+      margin-bottom: 14px;
+    }
+
+    .cta p {
+      max-width: 720px;
+      margin: 0 auto 24px;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 34px 0;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(8px);
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-box {
+      width: min(980px, 100%);
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: var(--bg-soft);
+      box-shadow: var(--shadow);
+    }
+
+    .lightbox-media {
+      min-height: 360px;
+      background: var(--card-2);
+    }
+
+    .lightbox-media img,
+    .lightbox-media .image-placeholder {
+      width: 100%;
+      height: min(70vh, 560px);
+      object-fit: cover;
+    }
+
+    .lightbox-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 18px;
+    }
+
+    .lightbox-content p {
+      color: var(--muted);
+    }
+
+    .close-btn {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--card);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 1.25rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .problem-solution,
+      .before-after {
+        grid-template-columns: 1fr;
+      }
+
+      .case-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cards,
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-content {
+        min-height: 64px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 52px;
+      }
+
+      .hero-card,
+      .hero-card img,
+      .hero-card .image-placeholder {
+        min-height: 380px;
+        height: 380px;
+      }
+
+      .case-hero {
+        padding: 26px;
+      }
+
+      .case-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .floating-info {
+        grid-template-columns: 1fr;
+      }
+
+      .cards,
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-item img,
+      .gallery-item .image-placeholder,
+      .photo-card img,
+      .photo-card .image-placeholder {
+        height: 240px;
+      }
+
+      .lightbox-content {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-content">
+      <a class="brand" href="#inicio" aria-label="Voltar ao início da página">
+        <span class="brand-icon">F</span>
+        <span>Fabra Oliveira</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="#resumo">Resumo</a>
+        <a href="#acoes">Ações</a>
+        <a href="#galeria">Galeria</a>
+        <a href="#resultados">Resultados</a>
+        <a class="nav-back" href="../../#projetos">Voltar ao portfólio</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container">
+        <div class="case-hero">
+          <div class="case-hero-content">
+            <div class="case-meta">
+              <span class="case-pill">Case técnico</span>
+              <span class="case-pill">Infraestrutura e redes</span>
+              <span class="case-pill">Ambiente corporativo</span>
+            </div>
+
+            <h1>Integração de Infraestrutura — UniToledo Wyden</h1>
+            <p>
+              Reestruturação da infraestrutura tecnológica da unidade UniToledo Wyden, com foco em organização de redes, cabeamento estruturado, higienização de cabos antigos, repassagem de novos pontos Cat6, padronização de estações, domínio, GPO e melhoria do ambiente corporativo.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#galeria">Ver fotos do projeto</a>
+              <a class="btn" href="#acoes">Ver etapas executadas</a>
+              <a class="btn" href="https://www.linkedin.com/posts/fabricio-de-oliveira-bimbi-516719223_infraestrutura-redes-networking-share-7454629607053512704-DDOx?utm_source=share&utm_medium=member_desktop&rcm=ACoAADgrVKIBeudZa8_1uN0lmjZKm3f76sGXeiI" target="_blank" rel="noopener noreferrer">Ver publicação no LinkedIn</a>
+            </div>
+          </div>
+
+          <div class="case-stats" aria-label="Indicadores do projeto">
+            <div class="case-stat">
+              <strong>394</strong>
+              <span>computadores mapeados</span>
+            </div>
+            <div class="case-stat">
+              <strong>104</strong>
+              <span>salas no ambiente</span>
+            </div>
+            <div class="case-stat">
+              <strong>5</strong>
+              <span>switches reduzidos na topologia</span>
+            </div>
+            <div class="case-stat">
+              <strong>3</strong>
+              <span>prédios atendidos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="resumo">
+      <div class="container">
+        <div class="section-head">
+          <h2>Visão geral do projeto</h2>
+          <p>O objetivo foi melhorar a organização da TI, o controle do ambiente tecnológico e a padronização da infraestrutura conforme o modelo corporativo adotado pela YDUQS.</p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="icon">🧩</div>
+            <h3>Contexto</h3>
+            <p>Ambiente com equipamentos fora de padrão, cabeamento desorganizado, pontos de rede distribuídos em locais inadequados e necessidade de maior controle técnico.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">🌐</div>
+            <h3>Infraestrutura</h3>
+            <p>Atuação em redes, switches, racks, cabeamento Cat6, organização física do ambiente, eliminação de cascatas, Wi-Fi corporativo e revisão de pontos críticos.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">🖥️</div>
+            <h3>Estações</h3>
+            <p>Padronização de computadores, ingresso em domínio corporativo/acadêmico e aplicação de políticas de controle por Active Directory e GPO.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container problem-solution">
+        <article class="card">
+          <div class="icon">⚠️</div>
+          <h2>Problemas identificados</h2>
+          <ul class="list">
+            <li><span class="check">!</span><span>Desktops fora do domínio e sem gerenciamento centralizado.</span></li>
+            <li><span class="check">!</span><span>Cabeamento desestruturado, com emendas e pontos sem organização adequada.</span></li>
+            <li><span class="check">!</span><span>Switches obsoletos ou não gerenciáveis em locais inadequados, como caixas de passagem, armários e embaixo de mesas.</span></li>
+            <li><span class="check">!</span><span>Existência de hubs e cascateamentos que dificultavam o controle da rede.</span></li>
+            <li><span class="check">!</span><span>Wi-Fi antigo, sem garantia e fora do padrão corporativo.</span></li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="icon">✅</div>
+          <h2>Soluções aplicadas</h2>
+          <ul class="list">
+            <li><span class="check">✓</span><span>Higienização de cabos antigos, retirada de cabos sem uso e reorganização dos racks.</span></li>
+            <li><span class="check">✓</span><span>Repassagem de novos pontos com cabeamento Cat6 em locais críticos.</span></li>
+            <li><span class="check">✓</span><span>Eliminação de hubs, cascatas, switches soltos e equipamentos instalados em locais inadequados.</span></li>
+            <li><span class="check">✓</span><span>Redução de 5 switches na topologia, simplificando a estrutura e facilitando a manutenção.</span></li>
+            <li><span class="check">✓</span><span>Centralização de pontos de rede em racks estruturados com patch panels e organizadores.</span></li>
+            <li><span class="check">✓</span><span>Padronização de domínio, políticas de acesso, SSIDs e autenticação corporativa.</span></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="acoes">
+      <div class="container">
+        <div class="section-head">
+          <h2>Etapas executadas</h2>
+          <p>Organização do case em etapas para facilitar a leitura por recrutadores, gestores de TI e profissionais de infraestrutura.</p>
+        </div>
+
+        <div class="timeline">
+          <article class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>Diagnóstico e levantamento</h3>
+              <p>Mapeamento do ambiente, identificação de equipamentos legados, hubs, switches fora de padrão, pontos de rede críticos e necessidade de reorganização física.</p>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3>Higienização e repassagem de cabos</h3>
+              <p>Remoção de cabos antigos ou sem uso, reorganização dos caminhos físicos e repassagem de cabeamento Cat6 para melhorar a estrutura e reduzir riscos operacionais.</p>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3>Racks, switches e patch panels</h3>
+              <p>Instalação e adequação de racks, movimentação de pontos para locais apropriados, organização dos switches, eliminação de cascatas e uso de patch panels/organizadores para melhorar manutenção e identificação.</p>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3>Padronização de rede e acesso</h3>
+              <p>Ingresso de máquinas em domínio, aplicação de políticas via GPO, adequação de SSIDs e melhoria no padrão de autenticação e controle do ambiente.</p>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <h3>Validação e documentação</h3>
+              <p>Conferência dos pontos, validação dos acessos, apoio aos usuários e registro técnico das alterações realizadas para facilitar futuras manutenções.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="galeria">
+      <div class="container">
+        <div class="section-head">
+          <h2>Galeria do projeto</h2>
+          <p>Clique em uma imagem para abrir a pré-visualização.</p>
+        </div>
+
+        <div class="before-after">
+          <article class="photo-card gallery-preview" data-title="Antes da organização" data-desc="Registro do ambiente antes da higienização e reorganização dos cabos." data-img="../../img/imgantes-rack.jpg">
+            <img src="../../img/imgantes-rack.jpg" alt="Antes da organização" loading="lazy">
+            <div class="photo-info">
+              <h3>Antes</h3>
+              <p>Ambiente com cabeamento desorganizado, equipamentos em locais inadequados e dificuldade de manutenção.</p>
+            </div>
+          </article>
+
+          <article class="photo-card gallery-preview" data-title="Depois da organização" data-desc="Registro após organização, repassagem de cabos e adequação do rack." data-img="../../img/imgdepois-rack.png">
+            <img src="../../img/imgdepois-rack.png" alt="Depois da organização" loading="lazy">
+            <div class="photo-info">
+              <h3>Depois</h3>
+              <p>Ambiente estruturado, com melhor identificação, melhor manutenção e maior padronização técnica.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="gallery-grid" style="margin-top: 18px;">
+          <article class="gallery-item gallery-preview" data-title="Higienização de cabos" data-desc="Retirada de cabos antigos, excedentes ou sem uso no ambiente." data-img="../../img/Higienização de cabos.png">
+            <img src="../../img/Higienização de cabos.png" alt="Higienização de cabos" loading="lazy">
+            <div class="gallery-caption">
+              <strong>Higienização de cabos</strong>
+              <span>Remoção e organização física</span>
+            </div>
+          </article>
+
+          <article class="gallery-item gallery-preview" data-title="Cabeamento Cat6" data-desc="Repassagem de novos pontos de rede com cabeamento Cat6." data-img="../../img/Cabeamento Cat6.png">
+            <img src="../../img/Cabeamento Cat6.png" alt="Cabeamento Cat6" loading="lazy">
+            <div class="gallery-caption">
+              <strong>Cabeamento Cat6</strong>
+              <span>Novos pontos e melhor estrutura</span>
+            </div>
+          </article>
+
+          <article class="gallery-item gallery-preview" data-title="Rack estruturado" data-desc="Adequação de racks, switches, patch panels e organizadores." data-img="../../img/Rack estruturado.png">
+            <img src="../../img/Rack estruturado.png" alt="Rack estruturado" loading="lazy">
+            <div class="gallery-caption">
+              <strong>Rack estruturado</strong>
+              <span>Organização e manutenção</span>
+            </div>
+          </article>
+
+          <article class="gallery-item gallery-preview" data-title="Switches e pontos críticos" data-desc="Remoção de switches instalados em locais inadequados e centralização dos pontos." data-img="../../img/Switches e pontos críticos.jpg">
+            <img src="../../img/Switches e pontos críticos.jpg" alt="Switches e pontos críticos" loading="lazy">
+            <div class="gallery-caption">
+              <strong>Switches e pontos críticos</strong>
+              <span>Padronização de rede</span>
+            </div>
+          </article>
+
+          <article class="gallery-item gallery-preview" data-title="Estações em domínio" data-desc="Padronização de computadores, domínio corporativo/acadêmico e políticas de acesso." data-img="../../img/Estações em domínio.png">
+            <img src="../../img/Estações em domínio.png" alt="Estações em domínio" loading="lazy">
+            <div class="gallery-caption">
+              <strong>Estações em domínio</strong>
+              <span>AD, GPO e padronização</span>
+            </div>
+          </article>
+
+          <article class="gallery-item gallery-preview" data-title="Wi-Fi corporativo" data-desc="Adequação de SSIDs e autenticação ao padrão corporativo." data-img="../../img/Wi-Fi corporativo.jpg">
+            <img src="../../img/Wi-Fi corporativo.jpg" alt="Wi-Fi corporativo" loading="lazy">
+            <div class="gallery-caption">
+              <strong>Wi-Fi corporativo</strong>
+              <span>SSIDs e autenticação</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultados">
+      <div class="container">
+        <div class="section-head">
+          <h2>Resultados e competências demonstradas</h2>
+          <p>O projeto evidencia experiência prática em infraestrutura, redes corporativas, suporte técnico, organização física de ambiente e padronização operacional.</p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="icon">📌</div>
+            <h3>Organização física</h3>
+            <p>Melhoria na identificação dos pontos, redução de cabos sem uso, organização de racks e menor complexidade visual para manutenção.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">🔐</div>
+            <h3>Controle corporativo</h3>
+            <p>Maior controle sobre estações, usuários, políticas, acessos e padronização do ambiente por meio de domínio e GPO.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">🚀</div>
+            <h3>Redes e continuidade</h3>
+            <p>Ambiente mais preparado para manutenção, expansão, documentação e operação diária, com menor dependência de improvisos e topologia mais enxuta após a redução de 5 switches.</p>
+          </article>
+        </div>
+
+        <div class="tag-row">
+          <span class="tag">Infraestrutura</span>
+          <span class="tag">Redes corporativas</span>
+          <span class="tag">Cabeamento estruturado</span>
+          <span class="tag">Switches</span>
+          <span class="tag">Active Directory</span>
+          <span class="tag">GPO</span>
+          <span class="tag">Wi-Fi corporativo</span>
+          <span class="tag">Documentação técnica</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="cta">
+          <h2>Projeto aplicado em ambiente real de infraestrutura</h2>
+          <p>
+            Esta página apresenta uma visão resumida e técnica da integração. Para complementar com prova social e publicação profissional, acesse também o post do LinkedIn.
+          </p>
+          <div class="hero-actions" style="justify-content: center;">
+            <a class="btn btn-primary" href="https://www.linkedin.com/posts/fabricio-de-oliveira-bimbi-516719223_infraestrutura-redes-networking-share-7454629607053512704-DDOx?utm_source=share&utm_medium=member_desktop&rcm=ACoAADgrVKIBeudZa8_1uN0lmjZKm3f76sGXeiI" target="_blank" rel="noopener noreferrer">Ver publicação no LinkedIn</a>
+            <a class="btn btn-primary" href="../../#projetos">Voltar ao portfólio</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-box" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+      <div class="lightbox-media" id="lightboxMedia"></div>
+      <div class="lightbox-content">
+        <div>
+          <h3 id="lightboxTitle">Pré-visualização</h3>
+          <p id="lightboxDesc">Descrição da imagem.</p>
+        </div>
+        <button class="close-btn" type="button" id="closeLightbox" aria-label="Fechar pré-visualização">×</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      Desenvolvido por © Fabricio de Oliveira Bimbi — Infraestrutura e Redes
+    </div>
+  </footer>
+
+  <script>
+    const lightbox = document.getElementById('lightbox');
+    const lightboxMedia = document.getElementById('lightboxMedia');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxDesc = document.getElementById('lightboxDesc');
+    const closeLightbox = document.getElementById('closeLightbox');
+
+    function openPreview(item) {
+      const title = item.dataset.title || 'Pré-visualização';
+      const desc = item.dataset.desc || 'Imagem do projeto.';
+      const img = item.dataset.img || '';
+
+      lightboxTitle.textContent = title;
+      lightboxDesc.textContent = desc;
+
+      lightboxMedia.innerHTML = `
+        <img src="${img}" alt="${title}" onerror="this.replaceWith(createPlaceholder('${title}', '${img}'))">
+      `;
+
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function createPlaceholder(title, path) {
+      const div = document.createElement('div');
+      div.className = 'image-placeholder';
+      div.innerHTML = `${title}<br><small>${path}</small>`;
+      return div;
+    }
+
+    function closePreview() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.gallery-preview').forEach((item) => {
+      item.addEventListener('click', () => openPreview(item));
+    });
+
+    closeLightbox.addEventListener('click', closePreview);
+
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) closePreview();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closePreview();
+    });
+  </script>
+</body>
+</html>
