@@ -75,4 +75,4 @@ Caso queira me conhecer melhor ou propor uma oportunidade:
 
 Este projeto está licenciado sob os termos da licença MIT.
 
-Feito por **Fabricio de Oliveira**.
+> Feito por Fabricio de Oliveira.
