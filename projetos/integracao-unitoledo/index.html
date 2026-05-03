@@ -124,6 +124,10 @@
       transform: translateY(-2px);
     }
 
+    .mobile-text {
+      display: none;
+    }
+
     .hero {
       padding: 78px 0 42px;
     }
@@ -683,10 +687,41 @@
     @media (max-width: 640px) {
       .nav-content {
         min-height: 64px;
+        gap: 12px;
+      }
+
+      .brand {
+        min-width: 0;
+      }
+
+      .brand span:last-child {
+        white-space: nowrap;
       }
 
       .nav-links {
+        display: flex;
+        gap: 0;
+      }
+
+      .nav-links a:not(.nav-back) {
         display: none;
+      }
+
+      .nav-back {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 11px;
+        font-size: 0.82rem;
+        border-radius: 10px;
+      }
+
+      .desktop-text {
+        display: none;
+      }
+
+      .mobile-text {
+        display: inline;
       }
 
       .hero {
@@ -743,7 +778,10 @@
         <a href="#acoes">Ações</a>
         <a href="#galeria">Galeria</a>
         <a href="#resultados">Resultados</a>
-        <a class="nav-back" href="../../#projetos">Voltar ao portfólio</a>
+        <a class="nav-back" href="../../#projetos">
+          <span class="desktop-text">Voltar ao portfólio</span>
+          <span class="mobile-text">Portfólio</span>
+        </a>
       </nav>
     </div>
   </header>
