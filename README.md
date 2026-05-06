@@ -14,30 +14,6 @@ Atuo com suporte técnico, manutenção de computadores, redes corporativas, cab
 
 Atualmente também curso **Redes de Computadores**, buscando aprofundar meus conhecimentos em ambientes corporativos, conectividade, segurança e administração de redes.
 
-## 🛠️ Tecnologias e conhecimentos
-
-- Infraestrutura de TI
-- Redes de computadores
-- Cabeamento estruturado
-- Switches e topologia de rede
-- Active Directory
-- Diretiva de Grupo / GPO
-- Suporte técnico
-- Manutenção de computadores
-- Windows
-- Git e GitHub
-- HTML
-- CSS
-- JavaScript
-
-## 📌 Projetos em destaque
-
-### Integração de Infraestrutura — UniToledo Wyden
-
-Case técnico sobre a reestruturação da infraestrutura tecnológica da unidade UniToledo Wyden, envolvendo organização de redes, higienização de cabos antigos, repassagem de novos pontos Cat6, eliminação de cascatas, redução de switches na topologia, organização de racks, padronização de estações, domínio, GPO e melhorias no ambiente corporativo.
-
-[Ver case completo](https://fabraoliveira.github.io/portfolio-infra/projetos/integracao-unitoledo/)
-
 ## 📬 Contato
 
 Caso queira me conhecer melhor ou propor uma oportunidade:
