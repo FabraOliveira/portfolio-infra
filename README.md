@@ -14,19 +14,6 @@ Atuo com suporte técnico, manutenção de computadores, redes corporativas, cab
 
 Atualmente também curso **Redes de Computadores**, buscando aprofundar meus conhecimentos em ambientes corporativos, conectividade, segurança e administração de redes.
 
-## 📬 Contato
-
-Caso queira me conhecer melhor ou propor uma oportunidade:
-
-- [LinkedIn](https://www.linkedin.com/in/fabricio-de-oliveira-bimbi-516719223/)
-- ✉️ Email: fabricio.bimbi@outlook.com.br
-
-## 🔐 Licença
-
-Este projeto está licenciado sob os termos da licença MIT.
-
-Feito por **Fabricio de Oliveira**.
-
 ## 📁 Estrutura do projeto
 
 ```text
