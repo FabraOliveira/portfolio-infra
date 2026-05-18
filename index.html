@@ -185,8 +185,10 @@
           <h2>Projetos</h2>
         </div>
 
-        <div class="complementary-grid">
-          <article class="project-card">
+        <div class="carousel-wrapper">
+          <button class="carousel-btn prev-btn" aria-label="Voltar" onclick="scrollCarousel(-1)">&lt;</button>
+          <div class="carousel-container" id="projectsCarousel">
+            <article class="project-card">
             <div class="project-image">
               <img class="project-img project-img-light" src="./img/UniToledo-Claro.png" alt="Ilustração do projeto Integração de Infraestrutura UniToledo Wyden" />
               <img class="project-img project-img-dark" src="./img/UniToledo-Escuro.png" alt="Ilustração do projeto Integração de Infraestrutura UniToledo Wyden" />
@@ -196,7 +198,21 @@
             </div>
             <p>Integração de infraestrutura com foco em redes, cabeamento estruturado, organização de ambiente técnico e padronização de estações em contexto corporativo.</p>
             <div class="project-actions">
-              <a class="mini-btn primary" href="projetos/integracao-unitoledo/">Ver detalhes</a>
+              <a class="mini-btn primary" href="projetos/integracao-unitoledo/index.html">Ver detalhes</a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-image">
+              <img class="project-img project-img-light" src="./img/netlab-claro.png" alt="Ilustração do projeto Modernização e Padronização" />
+              <img class="project-img project-img-dark" src="./img/netlab-escuro.png" alt="Ilustração do projeto Modernização e Padronização" />
+            </div>
+            <div class="project-head">
+              <h3>Modernização de Equipamentos</h3>
+            </div>
+            <p>Projeto de modernização de notebooks com foco em upgrades, otimização do Windows, reaproveitamento de hardware e padronização de equipamentos corporativos.</p>
+            <div class="project-actions">
+              <button class="mini-btn primary" onclick="openModal()">Ver status</button>
             </div>
           </article>
 
@@ -227,6 +243,22 @@
               <a class="mini-btn primary" href="https://fabraoliveira.github.io/redesociais/" target="_blank" rel="noopener noreferrer">Visitar o projeto</a>
             </div>
           </article>
+
+          <article class="project-card">
+            <div class="project-image">
+              <img class="project-img project-img-light" src="./img/Portfolio-Claro.png" alt="Ilustração do Portfólio Full Stack" />
+              <img class="project-img project-img-dark" src="./img/Portfolio-Escuro.png" alt="Ilustração do Portfólio Full Stack" />
+            </div>
+            <div class="project-head">
+              <h3>Portfólio Full Stack</h3>
+            </div>
+            <p>Projetos de desenvolvimento web criados como complemento técnico, reunindo estudos, interfaces, aplicações e práticas com tecnologias voltadas ao desenvolvimento Full Stack.</p>
+            <div class="project-actions">
+              <a class="mini-btn primary" href="https://fabraoliveira.github.io/Portfolio-FullStack/#inicio" target="_blank" rel="noopener noreferrer">Acessar projetos</a>
+            </div>
+          </article>
+          </div>
+          <button class="carousel-btn next-btn" aria-label="Avançar" onclick="scrollCarousel(1)">&gt;</button>
         </div>
       </div>
     </section>
@@ -269,15 +301,26 @@
     </section>
   </main>
 
+  <div id="statusModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Fechar" onclick="closeModal()">&times;</button>
+      <h3>Projeto em construção</h3>
+      <p>Este é um projeto real de infraestrutura em andamento na unidade. A iniciativa envolve a modernização e padronização de mais de 100 notebooks utilizados em salas de aula, com foco em desempenho, reaproveitamento de hardware, organização técnica, formatação, otimização do Windows e inclusão das máquinas em domínio corporativo.</p>
+      <div class="modal-status">
+        <span class="status-indicator"></span> Disponível em breve.
+      </div>
+    </div>
+  </div>
+
   <footer class="footer">
     <div class="container footer-content">
       <div class="footer-left">
         <span>Desenvolvido por:</span>
-        <strong>&copy; Fabricio de Oliveira Bimbi 2025</strong>
+        <strong>&copy; Fabricio de Oliveira Bimbi 2026</strong>
       </div>
       <div class="footer-right">
         <span>Contato</span>
-        <a href="mailto:fabricio.bimbi@outlook.com.br">E-mail: fabricio.bimbi@outlook.com.br</a>
+        <span class="footer-email-text">E-mail: <a href="mailto:fabricio.bimbi@outlook.com.br">fabricio.bimbi@outlook.com.br</a></span>
       </div>
     </div>
   </footer>
