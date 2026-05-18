@@ -212,7 +212,8 @@ input {
   border-radius: 15px;
   border: 1px solid var(--border);
   font-weight: 800;
-  transition: 0.2s ease;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn.primary {
@@ -225,11 +226,16 @@ input {
   color: #ffffff;
 }
 
-.btn:hover,
 .project-card:hover,
 .skill-card:hover,
 .metric:hover {
   transform: translateY(-3px);
+}
+
+.btn:hover,
+.mini-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .hero-panel {
@@ -534,6 +540,8 @@ section {
   border: 1px solid var(--border);
   font-weight: 800;
   color: var(--text);
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .mini-btn.primary {
@@ -604,7 +612,7 @@ section {
   cursor: pointer;
   z-index: 10;
   box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-  transition: 0.2s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   font-weight: bold;
   font-size: 1.2rem;
 }
@@ -613,6 +621,8 @@ section {
   background: var(--accent);
   color: #fff;
   border-color: transparent;
+  transform: translateY(calc(-50% - 2px));
+  box-shadow: 0 12px 24px rgba(0,0,0,0.22);
 }
 
 [data-theme="light"] .carousel-btn:hover {
@@ -635,6 +645,11 @@ section {
   max-width: 72%;
   max-height: 100px;
   object-fit: contain;
+}
+
+.carousel-container .project-img.portfolio-icon {
+  max-width: 60%;
+  max-height: 78px;
 }
 
 .case-preview {
