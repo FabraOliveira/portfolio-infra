@@ -534,32 +534,59 @@ section {
 .project-actions {
   margin-top: 18px;
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 8px;
+  flex-wrap: nowrap;
 }
 
 .mini-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
-  padding: 0 13px;
-  border-radius: 12px;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
   border: 1px solid var(--border);
-  font-weight: 800;
+  font-weight: 700;
+  font-size: 0.84rem;
   color: var(--text);
+  background: transparent;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease, transform 0.18s ease, box-shadow 0.22s ease;
+  white-space: nowrap;
 }
 
 .mini-btn.primary {
-  background: var(--accent);
-  color: #082f49;
-  border-color: transparent;
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
 }
 
 [data-theme="light"] .mini-btn.primary {
+  color: var(--text);
+}
+
+/* Project action buttons: ghost style, hover turns accent blue */
+.project-actions .mini-btn {
+  flex: 1;
+  min-width: 0;
+}
+
+.project-actions .mini-btn:hover {
+  background: var(--accent);
+  color: #082f49;
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 35%, transparent);
+  filter: none;
+}
+
+[data-theme="light"] .project-actions .mini-btn:hover {
   color: #ffffff;
+}
+
+.project-actions .mini-btn:active {
+  transform: scale(0.96);
+  box-shadow: none;
 }
 
 .subsection-title {

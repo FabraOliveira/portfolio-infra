@@ -79,9 +79,13 @@ function scrollCarousel(direction) {
 }
 
 // Modal Logic
-function openModal() {
+function openModal(text) {
   const modal = document.getElementById("statusModal");
   if (modal) {
+    if (text) {
+      const p = modal.querySelector(".modal-content p");
+      if (p) p.textContent = text;
+    }
     modal.classList.add("active");
   }
 }
