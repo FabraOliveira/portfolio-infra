@@ -235,7 +235,15 @@ input {
 .btn:hover,
 .mini-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  filter: brightness(0.88);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+}
+
+.btn:active,
+.mini-btn:active {
+  transform: scale(0.96);
+  box-shadow: none;
+  filter: brightness(0.82);
 }
 
 .hero-panel {
