@@ -470,8 +470,8 @@ section {
 }
 
 .project-img {
-  max-width: 82%;
-  max-height: 150px;
+  width: 96px;
+  height: 96px;
   object-fit: contain;
   display: block;
 }
@@ -1031,11 +1031,27 @@ section {
   }
 
   .carousel-container .project-card {
-    flex: 0 0 100%;
+    flex: 0 0 85%;
+    scroll-snap-align: center;
   }
 
   .carousel-btn {
-    display: none; /* Hide buttons on very small screens, rely on touch swipe */
+    display: flex;
+    width: 36px;
+    height: 36px;
+    font-size: 0.95rem;
+    background: color-mix(in srgb, var(--card-solid) 88%, transparent);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    z-index: 12;
+  }
+
+  .prev-btn {
+    left: 4px;
+  }
+
+  .next-btn {
+    right: 4px;
   }
 
   .project-head {

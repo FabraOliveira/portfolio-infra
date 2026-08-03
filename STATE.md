@@ -1,5 +1,5 @@
 # STATE.md — Controle de Contexto
-**Sessão:** 2026-07-10 | **Branch:** `main` | **Último commit:** `2af1025`
+**Sessão:** 2026-07-10 → 2026-07-11 | **Branch:** `main` | **Último commit:** `96313a0`
 
 ---
 
@@ -32,6 +32,9 @@
 - Adicionados e commitados ao GitHub: `AutoPrev--tema-claro.png`, `Alura--tema-escuro.png`, `EmBreve--tema-claro.png`, `EmBreve--tema-escuro.png`
 - Ícones de AutoPrev, Pós Formatação Coorp e Modernização de Equipamentos atualizados no HTML
 
+### HTML — Competências (`index.html`)
+- Adicionado chip **Python** no card `Sistemas e Complementares` (seção Competências)
+
 ### GitHub — Commits publicados
 | Commit | Descrição |
 |---|---|
@@ -39,6 +42,7 @@
 | `030e242` | fix: botões ghost com hover azul, texto dinâmico no modal, remoção de repo |
 | `8522855` | fix: ícones corretos para AutoPrev, Pós Formatação e Modernização |
 | `2af1025` | feat: adiciona imagens AutoPrev, Alura e EmBreve ao repositório |
+| `96313a0` | feat: adiciona Python em Sistemas e Complementares |
 
 ---
 
