@@ -14,8 +14,13 @@ updated: 2026-07-10
 
 ## Estrutura de Ícones de Projeto
 - Todo projeto no carrossel deve ter dois arquivos de ícone: `[nome]--tema-claro.png` e `[nome]--tema-escuro.png`.
+- Ícones de projeto (`.project-img`) possuem dimensão padronizada de `96px x 96px` com `object-fit: contain`.
 - Projetos sem repositório público exibem **somente** o botão "Ver status" (sem botão de repositório).
 - Projetos com repositório exibem **dois botões** lado a lado: "Ver detalhes" ou "Ver status" + "Ver repositório" / "Repositório".
+
+## Carrossel Mobile
+- Em telas `<= 768px`, os cards de projeto usam `flex: 0 0 85%` e `scroll-snap-align: center` (efeito *card peeking* de ~15% do próximo card).
+- Botões de navegação (`.carousel-btn`) permanecem ativos no mobile em formato compacto (`36px x 36px`) para facilidade de toque.
 
 ## Modal Dinâmico
 - A função `openModal(text)` em `script.js` aceita um texto como parâmetro e o injeta no `<p>` do modal.

@@ -27,11 +27,10 @@ portfolio-infra/
 ├── script.js           # Lógica: tema, menu mobile, carrossel, modal dinâmico
 ├── img/                # Ícones e imagens dos projetos e UI
 │   ├── AutoPrev--tema-claro.png
-│   ├── Alura--tema-escuro.png
-│   ├── EmBreve--tema-claro.png
-│   ├── EmBreve--tema-escuro.png
+│   ├── FlashConfig--tema-claro.png / FlashConfig--tema-escuro.png
+│   ├── InvScan--tema-claro.png / InvScan--tema-escuro.png
+│   ├── EmBreve--tema-claro.png / EmBreve--tema-escuro.png
 │   ├── UniToledo-Claro.png / UniToledo-Escuro.png
-│   ├── Excel--tema-claro.png / Excel.png
 │   └── ... (demais ícones de UI e redes sociais)
 ├── projetos/
 │   └── integracao-unitoledo/
@@ -77,8 +76,9 @@ A página segue esta sequência fixa de seções:
 - **Botões primários (hero)**: filled accent (`var(--accent)`)
 - **Botões de projeto (`.project-actions`)**: ghost/outline, hover → fundo azul com sombra luminosa
 - **Modal dinâmico**: `openModal(text)` injeta texto específico por projeto
-- **Ícones de projeto**: dois arquivos por projeto (`--tema-claro.png` / `--tema-escuro.png`)
-- **Tema claro/escuro para ícones**: controlado via classes `.project-img-light` e `.project-img-dark`
+- **Ícones de projeto**: padronizados com dimensão de `96px x 96px` (`object-fit: contain`)
+- **Tema claro/escuro para ícones**: controlado via classes `.project-img-light` e `.project-img-dark` com pares `[nome]--tema-claro.png` e `[nome]--tema-escuro.png`
+- **Carrossel Mobile**: exibição com card peeking (`85%` de largura para mostrar ~15% do próximo card) e setas compactas visíveis para excelente usabilidade em touch.
 
 ---
 

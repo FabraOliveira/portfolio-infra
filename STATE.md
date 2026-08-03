@@ -1,67 +1,39 @@
 # STATE.md — Controle de Contexto
-**Sessão:** 2026-07-10 → 2026-07-11 | **Branch:** `main` | **Último commit:** `96313a0`
+**Sessão:** 2026-08-02 → 2026-08-03 | **Branch:** `main` | **Último commit:** `ef8a852`
 
 ---
 
 ## ✅ Atividades Concluídas nesta Sessão
 
-### CSS — Modernização de Botões (`styles.css`)
-- Adicionado `filter: brightness(0.88)` no hover de `.btn` e `.mini-btn` (efeito escurecimento)
-- Adicionado `transform: scale(0.96)` no `:active` (efeito de clique físico)
-- Botões em `.project-actions` convertidos para estilo **ghost/outline** (fundo transparente)
-- Hover dos botões de projeto: fundo `var(--accent)` + sombra luminosa + elevação
-- `.project-actions` alterado para `flex-wrap: nowrap` e `gap: 8px` para botões lado a lado
-- `.project-actions .mini-btn` com `flex: 1` para divisão igual de largura
+### Reestruturação e Atualização dos Cards de Projetos (`index.html` & `README.md`)
+- **Novo Card (3º Lugar):** Adicionado card do projeto **`InvScan`** (Automação de inventário de hardware e software via WMI), com texto descritivo, modal dinâmico e link para o repositório GitHub.
+- **Card Atualizado (4º Lugar):** Card *Software de Pós Formatação Coorp* renomeado e atualizado para **`FlashConfig`** (Ferramenta open-source de pós-formatação em escala corporativa via pendrive), com botões para modal e repositório GitHub.
+- **Card Atualizado (5º Lugar - Último):** Card *Modernização de Equipamentos* atualizado para **`Organização e Higienização dos hacks não conformes — UniToledo Wyden`**, com descrição resumida do projeto de rede e botão de status.
+- **Ordem Atualizada do Carrossel:** UniToledo Wyden (1º) → AutoPrev (2º) → InvScan (3º) → FlashConfig (4º) → Organização e Higienização dos Racks UniToledo Wyden (5º).
+- **README.md:** Tabela de projetos exibidos e mapa de estrutura do projeto atualizados para refletir exatamente os novos cards.
 
-### HTML — Reorganização de Seções (`index.html`)
-- Nav atualizado: adicionado link "Início"; nova ordem → Início / Sobre / Projetos / Competências / Contato
-- Seções do `<main>` reordenadas para refletir nova sequência de navegação
+### Ícones de Projetos & Estilização (`img/` & `styles.css`)
+- **Ícones de Projetos:** Adicionados e referenciados os novos pares de ícones:
+  - `FlashConfig--tema-claro.png` e `FlashConfig--tema-escuro.png`
+  - `InvScan--tema-claro.png` e `InvScan--tema-escuro.png`
+- **Padronização de Tamanho de Ícones:** Definida dimensão fixa de `96px x 96px` com `object-fit: contain` para `.project-img`, garantindo alinhamento e proporção entre todos os cards.
 
-### HTML — Reestruturação dos Projetos (`index.html`)
-- **Removidos:** Portfólio Full Stack, Redes Sociais
-- **Adicionados:** AutoPrev, Software de Pós Formatação Coorp
-- **Nova ordem do carrossel:** UniToledo → AutoPrev → Planilha financeira → Pós Formatação Coorp → Modernização
-- Regra de botões aplicada por projeto (ver `project-conventions.md`)
-- Botão "Repositório" removido de Pós Formatação Coorp e Modernização de Equipamentos
+### UX do Carrossel Mobile (`styles.css`)
+- **Card Peeking:** No modo mobile (`<= 768px`), o card ajusta para `flex: 0 0 85%` com `scroll-snap-align: center`, deixando ~15% do próximo card visível para indicar arrasto horizontal (*swipe*).
+- **Setas Compactas:** Reativadas as setas de navegação `.carousel-btn` em tamanho compacto (`36px x 36px`) com *backdrop blur* nas extremidades da tela mobile.
 
-### JS — Modal Dinâmico (`script.js`)
-- `openModal()` refatorado para `openModal(text)` — injeta texto específico no `<p>` do modal
-- Cada botão `Ver detalhes` / `Ver status` passa descrição resumida do respectivo projeto
-
-### Imagens (`img/`)
-- Adicionados e commitados ao GitHub: `AutoPrev--tema-claro.png`, `Alura--tema-escuro.png`, `EmBreve--tema-claro.png`, `EmBreve--tema-escuro.png`
-- Ícones de AutoPrev, Pós Formatação Coorp e Modernização de Equipamentos atualizados no HTML
-
-### HTML — Competências (`index.html`)
-- Adicionado chip **Python** no card `Sistemas e Complementares` (seção Competências)
-
-### GitHub — Commits publicados
-| Commit | Descrição |
-|---|---|
-| `750741a` | feat: reestruturação de seções, modernização de botões e novos projetos |
-| `030e242` | fix: botões ghost com hover azul, texto dinâmico no modal, remoção de repo |
-| `8522855` | fix: ícones corretos para AutoPrev, Pós Formatação e Modernização |
-| `2af1025` | feat: adiciona imagens AutoPrev, Alura e EmBreve ao repositório |
-| `96313a0` | feat: adiciona Python em Sistemas e Complementares |
+### Git & Deploy
+- **Publicação:** Alterações commitadas e enviadas (`git push origin main`) para o repositório público e GitHub Pages.
 
 ---
 
 ## 🔲 Tarefas Pendentes para a Próxima Iteração
 
-### Projetos — Conteúdo
-- [ ] Criar ícone próprio para "Software de Pós Formatação Coorp" (atualmente usa `EmBreve`)
-- [ ] Adicionar página de detalhes (`projetos/autoprev/index.html`) quando o projeto AutoPrev estiver documentado
-- [ ] Adicionar repositório público do AutoPrev e atualizar link (atualmente `https://github.com/FabraOliveira/AutoPrev`)
-- [ ] Adicionar repositório público do Pós Formatação Coorp quando disponível e inserir botão "Repositório"
+### Projetos — Conteúdo e Documentação
+- [ ] Criar ícone/imagem própria para o projeto "Organização e Higienização dos racks UniToledo Wyden" (atualmente utiliza `EmBreve`).
+- [ ] Adicionar páginas internas de detalhes (`projetos/autoprev/`, `projetos/flashconfig/`, `projetos/invscan/`) conforme os projetos amadurecerem.
+- [ ] Avaliar inclusão de métricas e prints nas modais dos projetos `InvScan` e `FlashConfig`.
 
-### Projetos — Conteúdo (Modernização de Equipamentos)
-- [ ] Criar página de detalhes quando o projeto estiver concluído
-- [ ] Substituir ícone `EmBreve` por imagem real do projeto
-
-### Design / UX
-- [ ] Avaliar animação de entrada das seções (scroll reveal / intersection observer)
-- [ ] Revisar responsividade do carrossel em telas < 480px (botões podem sobrepor)
-
-### Infraestrutura
-- [ ] Configurar `.gitignore` para excluir `.agents/` do repositório público (pasta de agente IA)
-- [ ] Considerar compressão das imagens PNG da pasta `img/` para otimizar carregamento no GitHub Pages
+### Design / Performance UX
+- [ ] Testar animações de scroll reveal (Intersection Observer) para carregamento progressivo das seções.
+- [ ] Otimizar/comprimir imagens PNG pesadas da pasta `img/` para acelerar o tempo de carregamento no GitHub Pages.
