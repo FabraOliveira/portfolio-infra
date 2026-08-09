@@ -37,13 +37,13 @@
   - **Grid de 6 Recursos Simétricos:** Portátil (zero instalação), GUI + CLI, Fallback inteligente de MAC Address, detecção de Office em 4 camadas, classificação SSD vs. HDD (`MSFT_PhysicalDisk`) e CSV nativo UTF-8-BOM para Excel.
   - **Fluxo em 3 Etapas & FAQ Accordion:** Guia visual e perguntas frequentes expansíveis (offline, UAC, Excel, contingência Windows 7).
   - **Galeria 2x2 & Lightbox:** Galeria em 2 colunas exibindo os prints reais (`invscan-config-app.png`, `invscan-gui-dark.png`, `invscan-cli-varredura.png`, `invscan-excel-csv.png`) com proteção visual contra cópia/arrasto.
-### Landing Page do Projeto — FlashConfig (Redesenho Exclusivo)
+### Landing Page do Projeto — FlashConfig (Simulador Interativo & Redesenho)
 - **Landing Page Criada & Redesenhada:** [projetos/flashconfig/index.html](file:///c:/Users/fabra/OneDrive/Documentos/Code/Profissional/CodigoAberto/Portfolio%20Infra/projetos/flashconfig/index.html)
   - **Identidade Neon Ciano/Azul**: Paleta de cores exclusiva (`#00e5ff` / `#00f2fe` / `#3b82f6`) com acentos em âmbar e cards em Glassmorphism com efeito glow.
-  - **Hero Command Center Board**: Painel de progresso em tempo real da automação pós-formatação exibindo status dos 5 módulos (Domínio AD, Office ODT, Drivers, Perfil Empresa e Debloat).
+  - **Simulador Interativo da Interface (Hero Component)**: Réplica interativa da GUI CustomTkinter no topo da página onde o usuário clica nos botões dos módulos (Domínio AD, Office ODT, Python, Perfis SO, Drivers .inf e Debloat) para abrir um modal dinâmico com o resumo técnico e prévia do terminal `CREATE_NEW_CONSOLE`.
+  - **Copywriting Ajustado**: Título atualizado para *"O Fim das Configurações Pós-Formatação Manuais"* refletindo com precisão que a ferramenta executa automação pós-formatação de TI.
   - **Árvore de Diretórios do Pendrive**: Componente gráfico exclusivo simulando a estrutura física do pendrive `FlashConfig/` (`Scripts/Dominio`, `Scripts/Office`, `Scripts/Drivers`, `Scripts/Padronizar`, `Scripts/Debloat`).
   - **Visualizador de Perfis (Empresa vs. Acadêmico)**: Cartões comparativos entre as regras ativas de cada perfil de sistema.
-  - **Grid de 6 Módulos & Tags**: Identificação técnica com tags em destaque (`Active Directory`, `Microsoft ODT`, `pnputil.exe`, `CREATE_NEW_CONSOLE`).
 - **Integração na index.html:** Botão "Ver detalhes" do card do FlashConfig direcionado para a subpágina.
 
 ---

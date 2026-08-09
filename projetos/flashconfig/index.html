@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="FlashConfig: Central de automação e padronização pós-formatação de TI em ambientes Windows 10/11. Software Open Source portátil (.exe) executado direto do pendrive." />
-  <title>FlashConfig — Central de Automação Pós-Formatação de TI</title>
+  <title>FlashConfig — Automação Pós-Formatação de TI</title>
   <link rel="icon" type="image/png" href="../../img/Icone-aba.png" />
 
   <style>
@@ -15,7 +15,7 @@
       --card-2: #102644;
       --text: #eaf2ff;
       --muted: #9fb2ca;
-      --line: rgba(0, 229, 255, 0.15);
+      --line: rgba(0, 229, 255, 0.18);
       --line-subtle: rgba(255, 255, 255, 0.08);
       --accent: #00e5ff;
       --accent-cyan: #00f2fe;
@@ -288,92 +288,111 @@
       display: none;
     }
 
-    /* Command Center Board Component (Hero Visual Exclusivo FlashConfig) */
-    .command-center-board {
+    /* SIMULADOR INTERATIVO FLASHCONFIG (Hero Component Exclusivo) */
+    .gui-simulator {
       max-width: 860px;
       margin: 0 auto;
-      background: linear-gradient(180deg, #071629 0%, #0a1b32 100%);
-      border: 1px solid rgba(0, 229, 255, 0.35);
+      background: linear-gradient(180deg, #07172b 0%, #0a1c34 100%);
+      border: 1px solid rgba(0, 229, 255, 0.4);
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 229, 255, 0.15);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.75), 0 0 45px rgba(0, 229, 255, 0.2);
       text-align: left;
     }
 
-    .board-header {
-      background: rgba(0, 229, 255, 0.08);
+    .gui-sim-header {
+      background: rgba(0, 229, 255, 0.1);
       padding: 14px 22px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+      border-bottom: 1px solid rgba(0, 229, 255, 0.25);
     }
 
-    .board-title-group {
+    .gui-sim-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .sim-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .sim-dot-close { background: #ef4444; }
+    .sim-dot-min { background: #f59e0b; }
+    .sim-dot-max { background: #10b981; }
+
+    .gui-sim-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .gui-sim-hint {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 700;
+      background: rgba(0, 229, 255, 0.12);
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 229, 255, 0.3);
+    }
+
+    .gui-sim-body {
+      padding: 28px;
+    }
+
+    .sim-banner {
+      background: rgba(0, 229, 255, 0.08);
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 0.88rem;
+      color: var(--accent);
+      margin-bottom: 24px;
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .board-live-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 10px var(--accent);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.2); }
-    }
-
-    .board-title {
-      font-size: 0.88rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      color: #ffffff;
-      text-transform: uppercase;
-    }
-
-    .board-badge-live {
-      font-size: 0.75rem;
-      padding: 3px 10px;
-      border-radius: 999px;
-      background: rgba(16, 185, 129, 0.2);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      color: var(--success);
-      font-weight: 700;
-    }
-
-    .board-grid {
-      padding: 24px;
+    .sim-modules-grid {
       display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 16px;
     }
 
-    .board-module-card {
+    .sim-btn-card {
       background: rgba(16, 38, 68, 0.6);
-      border: 1px solid rgba(0, 229, 255, 0.15);
+      border: 1px solid rgba(0, 229, 255, 0.2);
       border-radius: 14px;
-      padding: 14px 18px;
+      padding: 18px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: left;
+    }
+
+    .sim-btn-card:hover {
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.18), rgba(59, 130, 246, 0.18));
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 229, 255, 0.25);
+    }
+
+    .sim-btn-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-      transition: all 0.25s ease;
     }
 
-    .board-module-card:hover {
-      border-color: rgba(0, 229, 255, 0.4);
-      background: rgba(16, 38, 68, 0.9);
-      transform: translateX(4px);
-    }
-
-    .module-info h4 {
-      font-size: 0.95rem;
+    .sim-btn-title {
+      font-size: 1.02rem;
       font-weight: 800;
       color: #ffffff;
       display: flex;
@@ -381,43 +400,21 @@
       gap: 8px;
     }
 
-    .module-info p {
-      font-size: 0.83rem;
+    .sim-btn-desc {
+      font-size: 0.82rem;
       color: var(--muted);
-      margin-top: 2px;
-      font-family: 'SFMono-Regular', Consolas, monospace;
+      line-height: 1.4;
     }
 
-    .module-status {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .progress-bar-bg {
-      width: 120px;
-      height: 7px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 999px;
-      overflow: hidden;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      width: 100%;
-      background: linear-gradient(90deg, #0284c7, var(--accent));
-      border-radius: 999px;
-    }
-
-    .status-tag {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--success);
-      background: rgba(16, 185, 129, 0.12);
-      padding: 4px 10px;
-      border-radius: 8px;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      white-space: nowrap;
+    .sim-btn-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--accent);
+      align-self: flex-start;
+      background: rgba(0, 229, 255, 0.1);
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 229, 255, 0.25);
     }
 
     /* Section Header */
@@ -451,7 +448,7 @@
       margin-inline: auto;
     }
 
-    /* NOVA SEÇÃO: Árvore do Pendrive de TI */
+    /* Estrutura do Pendrive de TI */
     .pendrive-section {
       padding: 70px 0;
       background: rgba(10, 23, 40, 0.5);
@@ -631,7 +628,7 @@
       font-family: monospace;
     }
 
-    /* NOVA SEÇÃO: Perfis de Padronização */
+    /* Perfis de Padronização */
     .profiles-section {
       padding: 70px 0;
       background: rgba(10, 23, 40, 0.3);
@@ -898,8 +895,8 @@
       background: rgba(5, 13, 24, 0.8);
     }
 
-    /* Lightbox Modal */
-    .lightbox-modal {
+    /* Lightbox & Simulator Modals */
+    .lightbox-modal, .sim-modal {
       display: none;
       position: fixed;
       inset: 0;
@@ -910,8 +907,75 @@
       padding: 24px;
     }
 
-    .lightbox-modal.active {
+    .lightbox-modal.active, .sim-modal.active {
       display: grid;
+    }
+
+    .sim-modal-content {
+      max-width: 720px;
+      width: 100%;
+      background: var(--card);
+      border: 1px solid rgba(0, 229, 255, 0.4);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 229, 255, 0.2);
+    }
+
+    .sim-modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--line);
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+
+    .sim-modal-close:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
+    .sim-modal-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .sim-modal-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .sim-modal-code {
+      font-family: 'SFMono-Regular', Consolas, monospace;
+      font-size: 0.86rem;
+      background: #030a16;
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      border-radius: 12px;
+      padding: 16px;
+      color: #38bdf8;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .sim-modal-footer {
+      display: flex;
+      justify-content: flex-end;
     }
 
     .lightbox-content {
@@ -989,6 +1053,7 @@
       .brand-icon { width: 34px; height: 34px; font-size: 0.9rem; }
       .btn-back { padding: 7px 12px; font-size: 0.8rem; gap: 6px; border-radius: 10px; }
       .hero-ctas .btn { padding: 10px 14px; font-size: 0.84rem; gap: 6px; }
+      .gui-sim-body { padding: 18px 14px; }
     }
 
     @media (max-width: 360px) {
@@ -1012,10 +1077,10 @@
         <span>FlashConfig</span>
       </a>
       <ul class="nav-links">
+        <li><a href="#simulador">Simulador GUI</a></li>
         <li><a href="#recursos">Módulos</a></li>
         <li><a href="#pendrive">Estrutura USB</a></li>
         <li><a href="#perfis">Perfis SO</a></li>
-        <li><a href="#passos">Como Funciona</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#prints">Demonstração</a></li>
       </ul>
@@ -1028,8 +1093,8 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <header class="hero">
+  <!-- Hero Section com Simulador Interativo -->
+  <header class="hero" id="simulador">
     <div class="container hero-content">
       <div class="badge-group" style="justify-content: center;">
         <span class="badge">🔒 100% Open Source (MIT)</span>
@@ -1037,9 +1102,9 @@
         <span class="badge badge-green">💻 Execução Transparente</span>
         <span class="badge">🪟 Windows 10 & 11</span>
       </div>
-      <h1>Central de Automação Pós-Formatação <span>em Escala Corporativa</span></h1>
+      <h1>Automação Pós-Formatação de TI <span>em Escala Corporativa</span></h1>
       <p class="hero-subtitle">
-        Padronize a configuração de estações de trabalho em minutos: ingresso em domínio Active Directory, instalação automatizada do Office (ODT), Python, drivers `.inf` e expurgo de bloatwares com 100% de transparência.
+        Padronize a configuração de computadores Windows em minutos: ingresso em domínio Active Directory, instalação automatizada do Office (ODT), Python, pacotes de drivers e debloat com 100% de transparência.
       </p>
       <div class="hero-ctas">
         <a href="https://github.com/FabraOliveira/FlashConfig" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
@@ -1052,69 +1117,84 @@
         </a>
       </div>
 
-      <!-- FlashConfig Command Center Board Component (Hero Visual Exclusivo) -->
-      <div class="command-center-board">
-        <div class="board-header">
-          <div class="board-title-group">
-            <span class="board-live-dot"></span>
-            <span class="board-title">FlashConfig Automation Engine — Live Command Board</span>
+      <!-- SIMULADOR INTERATIVO DA INTERFACE FLASHCONFIG -->
+      <div class="gui-simulator">
+        <div class="gui-sim-header">
+          <div class="gui-sim-controls">
+            <span class="sim-dot sim-dot-close"></span>
+            <span class="sim-dot sim-dot-min"></span>
+            <span class="sim-dot sim-dot-max"></span>
           </div>
-          <span class="board-badge-live">STATUS: PRONTO PARA CAMPO</span>
+          <span class="gui-sim-title">⚡ FlashConfig v1.0.0 — Simulador Interativo da Interface</span>
+          <span class="gui-sim-hint">CLIQUE EM UMA OPÇÃO ABAIXO</span>
         </div>
-        <div class="board-grid">
-          <!-- Módulo 1 -->
-          <div class="board-module-card">
-            <div class="module-info">
-              <h4>🌐 Active Directory Domain Join</h4>
-              <p>Hostname: NB-A4F1E8 | Domínio: empresa.com.br</p>
-            </div>
-            <div class="module-status">
-              <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
-              <span class="status-tag">✅ Ingressado no AD</span>
-            </div>
+        <div class="gui-sim-body">
+          <div class="sim-banner">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>Experimente a interface! Clique nos módulos para abrir o resumo técnico da função:</span>
           </div>
 
-          <!-- Módulo 2 -->
-          <div class="board-module-card">
-            <div class="module-info">
-              <h4>🏢 Microsoft Office Deployment (ODT)</h4>
-              <p>Pacote: Office 2024 VL (64-bit pt-br)</p>
-            </div>
-            <div class="module-status">
-              <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
-              <span class="status-tag">✅ Concluído (Silent)</span>
-            </div>
-          </div>
+          <div class="sim-modules-grid">
+            <!-- Opção 1: Domínio -->
+            <button class="sim-btn-card" onclick="openSimModal('dominio')">
+              <div class="sim-btn-head">
+                <span class="sim-btn-title">🌐 Ingresso em Domínio AD</span>
+                <span class="sim-btn-badge">PowerShell</span>
+              </div>
+              <p class="sim-btn-desc">Facilitador com sugestão automática de Service Tag (`NB-`/`PC-`) e atalho `sysdm.cpl`.</p>
+            </button>
 
-          <!-- Módulo 3 -->
-          <div class="board-module-card">
-            <div class="module-info">
-              <h4>📦 Driver Packages (pnputil.exe)</h4>
-              <p>Varredura: subdiretórios *.inf descompactados</p>
-            </div>
-            <div class="module-status">
-              <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
-              <span class="status-tag">✅ 14 Drivers OK</span>
-            </div>
-          </div>
+            <!-- Opção 2: Office -->
+            <button class="sim-btn-card" onclick="openSimModal('office')">
+              <div class="sim-btn-head">
+                <span class="sim-btn-title">🏢 Pacote Microsoft Office</span>
+                <span class="sim-btn-badge">ODT MS</span>
+              </div>
+              <p class="sim-btn-desc">Instalação automatizada do Office 2024 VL ou Office 365 (64-bit pt-br).</p>
+            </button>
 
-          <!-- Módulo 4 -->
-          <div class="board-module-card">
-            <div class="module-info">
-              <h4>⚙️ System Profile Standardization</h4>
-              <p>Perfil: Perfil Empresa (Power/DarkTheme/AutoOff)</p>
-            </div>
-            <div class="module-status">
-              <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
-              <span class="status-tag">✅ Perfil Aplicado</span>
-            </div>
+            <!-- Opção 3: Python -->
+            <button class="sim-btn-card" onclick="openSimModal('python')">
+              <div class="sim-btn-head">
+                <span class="sim-btn-title">🐍 Ambiente Python 3.12</span>
+                <span class="sim-btn-badge">Silencioso</span>
+              </div>
+              <p class="sim-btn-desc">Instalação do interpretador oficial Python para scripts de sistema.</p>
+            </button>
+
+            <!-- Opção 4: Perfis -->
+            <button class="sim-btn-card" onclick="openSimModal('perfis')">
+              <div class="sim-btn-head">
+                <span class="sim-btn-title">⚙️ Perfis de Padronização</span>
+                <span class="sim-btn-badge">Empresa/Lab</span>
+              </div>
+              <p class="sim-btn-desc">Ajusta energia, tema escuro, auto-desligamento ou navegação privada por padrão.</p>
+            </button>
+
+            <!-- Opção 5: Drivers -->
+            <button class="sim-btn-card" onclick="openSimModal('drivers')">
+              <div class="sim-btn-head">
+                <span class="sim-btn-title">📦 Instalador de Drivers</span>
+                <span class="sim-btn-badge">pnputil.exe</span>
+              </div>
+              <p class="sim-btn-desc">Varredura e aplicação de pacotes `.inf` em subdiretórios de forma transparente.</p>
+            </button>
+
+            <!-- Opção 6: Debloat -->
+            <button class="sim-btn-card" onclick="openSimModal('debloat')">
+              <div class="sim-btn-head">
+                <span class="sim-btn-title">🧹 Debloat & Limpeza</span>
+                <span class="sim-btn-badge">AppX Clean</span>
+              </div>
+              <p class="sim-btn-desc">Exclusão de arquivos temporários e remoção em lote de bloatwares do Windows 10/11.</p>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- NOVA SEÇÃO EXCLUSIVA: Estrutura do Pendrive de TI -->
+  <!-- Estrutura do Pendrive de TI -->
   <section id="pendrive" class="pendrive-section">
     <div class="container">
       <div class="section-title">
@@ -1142,13 +1222,13 @@
     </div>
   </section>
 
-  <!-- Dores vs Soluções -->
+  <!-- Dores vs Soluções (Título Ajustado Pós-Formatação) -->
   <section id="dores" class="comparison-section">
     <div class="container">
       <div class="section-title">
         <span class="eyebrow">Produtividade em campo</span>
-        <h2>O Fim da Formatação Manual Repetitiva</h2>
-        <p>Compare o tempo e o esforço técnico entre o método tradicional e o FlashConfig.</p>
+        <h2>O Fim das Configurações Pós-Formatação Manuais</h2>
+        <p>Compare o tempo e o esforço técnico de padronização entre o método manual e o FlashConfig.</p>
       </div>
 
       <div class="comparison-grid">
@@ -1286,7 +1366,7 @@
     </div>
   </section>
 
-  <!-- NOVA SEÇÃO EXCLUSIVA: Perfis Corporativo vs Acadêmico -->
+  <!-- Perfis Corporativo vs Acadêmico -->
   <section id="perfis" class="profiles-section">
     <div class="container">
       <div class="section-title">
@@ -1513,6 +1593,19 @@
     </div>
   </section>
 
+  <!-- MODAL INTERATIVO DO SIMULADOR DA GUI -->
+  <div class="sim-modal" id="simModal" onclick="closeSimModal(event)">
+    <div class="sim-modal-content">
+      <button class="sim-modal-close" onclick="closeSimModal(event)">✕</button>
+      <div id="simModalTitle" class="sim-modal-title">📌 Módulo do FlashConfig</div>
+      <p id="simModalDesc" class="sim-modal-desc">Resumo detalhado da funcionalidade pós-formatação.</p>
+      <div id="simModalCode" class="sim-modal-code">Console Log Output</div>
+      <div class="sim-modal-footer">
+        <button class="btn btn-primary" onclick="closeSimModal(event)">Entendido</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Lightbox Modal -->
   <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox(event)">
     <div class="lightbox-content">
@@ -1536,8 +1629,57 @@
     </div>
   </footer>
 
-  <!-- Lightbox, Accordion & Copy Protection Script -->
+  <!-- Lightbox, Accordion, Simulador & Copy Protection Script -->
   <script>
+    // Dados dos Módulos para o Simulador Interativo
+    const simData = {
+      dominio: {
+        title: "🌐 Módulo: Ingresso em Domínio Active Directory",
+        desc: "Facilitador gráfico interativo para renomeação do computador e inclusão no domínio AD. Gera sugestões automáticas baseadas no Service Tag (ex: `NB-` para notebooks e `PC-` para desktops), adiciona sufixos aleatórios anti-conflito e disponibiliza atalho direto para o `sysdm.cpl`.",
+        code: "[FLASHCONFIG - DOMÍNIO AD]\n> Detectado Service Tag: A4F1E8 -> Hostname sugerido: NB-A4F1E8\n> Lendo config.json: Domínio primário = empresa.com.br\n> Executando Facilitador.ps1 (Powershell Elevado UAC)...\n> Status: Inclusão em Domínio concluída com sucesso!"
+      },
+      office: {
+        title: "🏢 Módulo: Instalação Automatizada do Microsoft Office",
+        desc: "Automação do Office Deployment Tool (ODT) oficial da Microsoft. Permite instalar o Office 2024 Volume License ou Office 365 em 64-bit pt-br com pré-remoção de programas indesejados.",
+        code: "[FLASHCONFIG - MICROSOFT OFFICE ODT]\n> Localizado setup.exe do Office Deployment Tool\n> Carregando arquivo de configuração: Configuração_Office2024.xml\n> Executando setup.exe /configure em console visível...\n> Status: Pacote Microsoft Office instalado com sucesso!"
+      },
+      python: {
+        title: "🐍 Módulo: Instalação do Ambiente Python 3.12",
+        desc: "Execução automatizada e silenciosa do instalador oficial do interpretador Python para ambientação de dependências do sistema e scripts técnicos.",
+        code: "[FLASHCONFIG - AMBIENTE PYTHON]\n> Instalador localizado: Scripts/Python/python-3.12.x-amd64.exe\n> Executando instalador oficial com parâmetros /quiet InstallAllUsers=1...\n> Status: Python 3.12 configurado no PATH do sistema!"
+      },
+      perfis: {
+        title: "⚙️ Módulo: Perfis de Padronização de Sistema Operacional",
+        desc: "Aplica em 1 clique o Perfil Empresa (plano de energia de alto desempenho, tema escuro, limpeza de barra de tarefas e desligamento automático à meia-noite) ou o Perfil Acadêmico/Laboratórios (força navegação privada por padrão no Chrome, Edge, Firefox, Brave, Opera, Vivaldi).",
+        code: "[FLASHCONFIG - PERFIL EMPRESA / PADRÃO]\n> Ajustando powercfg /change monitor-timeout-ac 0\n> Aplicando tema escuro no Registro do Windows (SystemUsesLightTheme=0)\n> Agendando shutdown /s /f /t 00 às 00:00 via Task Scheduler\n> Status: Diretivas do Perfil Empresa aplicadas!"
+      },
+      drivers: {
+        title: "📦 Módulo: Instalação Automatizada de Drivers (.inf)",
+        desc: "Varredura e instalação silenciosa de todos os pacotes de drivers descompactados (.inf) em subdiretórios utilizando o utilitário nativo do Windows `pnputil.exe`.",
+        code: "[FLASHCONFIG - INSTALADOR DE DRIVERS]\n> Direcionando para diretório: Scripts/Drivers/\n> Executando: pnputil.exe /add-driver *.inf /subdirs /install\n> Adicionado: driver_rede_realtek.inf [OK]\n> Adicionado: driver_grafico_intel.inf [OK]\n> Status: Todos os pacotes de drivers foram aplicados ao sistema!"
+      },
+      debloat: {
+        title: "🧹 Módulo: Debloat & Limpeza de Ativos",
+        desc: "Exclusão profunda de arquivos temporários (%TEMP%, SoftwareDistribution, Prefetch, caches de navegadores) e remoção em lote de bloatwares e jogos pré-instalados no Windows 10/11.",
+        code: "[FLASHCONFIG - DEBLOAT & LIMPEZA DE ATIVOS]\n> Executando limpeza_basica.ps1 em diretórios temporários...\n> Limpos 4.8 GB de arquivos temporários e logs antigos.\n> Removendo pacotes AppX inúteis (Cortana, Xbox, Solitaire, PromoApps)...\n> Status: Sistema limpo e otimizado com sucesso!"
+      }
+    };
+
+    function openSimModal(key) {
+      const data = simData[key];
+      if (!data) return;
+      document.getElementById('simModalTitle').innerText = data.title;
+      document.getElementById('simModalDesc').innerText = data.desc;
+      document.getElementById('simModalCode').innerText = data.code;
+      document.getElementById('simModal').classList.add('active');
+    }
+
+    function closeSimModal(e) {
+      if (e.target.id === 'simModal' || e.target.classList.contains('sim-modal-close') || e.target.classList.contains('btn')) {
+        document.getElementById('simModal').classList.remove('active');
+      }
+    }
+
     function openLightbox(src, alt) {
       const modal = document.getElementById('lightboxModal');
       const img = document.getElementById('lightboxImg');
