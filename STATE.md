@@ -1,5 +1,5 @@
 # STATE.md — Controle de Contexto
-**Sessão:** 2026-08-08 → 2026-08-09 | **Branch:** `main` | **Último commit:** `99d596d`
+**Sessão:** 2026-08-08 → 2026-08-09 | **Branch:** `main` | **Último commit:** `0ab6a4c`
 
 ---
 
