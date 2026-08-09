@@ -26,13 +26,16 @@ portfolio-infra/
 ├── styles.css          # Todos os estilos (dark/light theme, componentes)
 ├── script.js           # Lógica: tema, menu mobile, carrossel, modal dinâmico
 ├── img/                # Ícones e imagens dos projetos e UI
+│   ├── Antes/          # Imagens do estado inicial dos racks (comparativo)
+│   ├── Depois/         # Imagens do estado final higienizado e organizado (comparativo)
 │   ├── AutoPrev--tema-claro.png
 │   ├── FlashConfig--tema-claro.png / FlashConfig--tema-escuro.png
 │   ├── InvScan--tema-claro.png / InvScan--tema-escuro.png
-│   ├── EmBreve--tema-claro.png / EmBreve--tema-escuro.png
 │   ├── UniToledo-Claro.png / UniToledo-Escuro.png
 │   └── ... (demais ícones de UI e redes sociais)
 ├── projetos/
+│   ├── higienizacao-racks-unitoledo/
+│   │   └── index.html  # Página de detalhes do projeto Padronização de Racks
 │   └── integracao-unitoledo/
 │       └── index.html  # Página de detalhes do projeto UniToledo
 └── .agents/            # Configuração do Antigravity (AG Kit)

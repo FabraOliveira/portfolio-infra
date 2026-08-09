@@ -41,5 +41,9 @@ A ordem de exibição das seções é imutável sem decisão explícita:
 4. Competências
 5. Contato
 
+## Proteção de Imagens em Páginas de Detalhes
+- Em páginas de caso técnico/detalhes, elementos `<img>` de evidências devem possuir `user-drag: none`, `user-select: none`, `draggable="false"` e `oncontextmenu="return false;"`.
+- Adicionar escutadores globais via JS (`contextmenu` e `dragstart`) prevenindo o comportamento padrão para evitar download/arrasto ou abertura em nova guia.
+
 ## Imagens no GitHub
 - Arquivos de imagem adicionados à pasta `img/` devem ser commitados separadamente ou junto com o HTML, nunca deixados como "untracked" após deploy de código que os referencia.
