@@ -37,16 +37,21 @@
   - **Grid de 6 Recursos Simétricos:** Portátil (zero instalação), GUI + CLI, Fallback inteligente de MAC Address, detecção de Office em 4 camadas, classificação SSD vs. HDD (`MSFT_PhysicalDisk`) e CSV nativo UTF-8-BOM para Excel.
   - **Fluxo em 3 Etapas & FAQ Accordion:** Guia visual e perguntas frequentes expansíveis (offline, UAC, Excel, contingência Windows 7).
   - **Galeria 2x2 & Lightbox:** Galeria em 2 colunas exibindo os prints reais (`invscan-config-app.png`, `invscan-gui-dark.png`, `invscan-cli-varredura.png`, `invscan-excel-csv.png`) com proteção visual contra cópia/arrasto.
-- **Integração na index.html:** Botão "Ver detalhes" do card do InvScan atualizado para direcionar à landing page.
+### Landing Page do Projeto — FlashConfig (Redesenho Exclusivo)
+- **Landing Page Criada & Redesenhada:** [projetos/flashconfig/index.html](file:///c:/Users/fabra/OneDrive/Documentos/Code/Profissional/CodigoAberto/Portfolio%20Infra/projetos/flashconfig/index.html)
+  - **Identidade Neon Ciano/Azul**: Paleta de cores exclusiva (`#00e5ff` / `#00f2fe` / `#3b82f6`) com acentos em âmbar e cards em Glassmorphism com efeito glow.
+  - **Hero Command Center Board**: Painel de progresso em tempo real da automação pós-formatação exibindo status dos 5 módulos (Domínio AD, Office ODT, Drivers, Perfil Empresa e Debloat).
+  - **Árvore de Diretórios do Pendrive**: Componente gráfico exclusivo simulando a estrutura física do pendrive `FlashConfig/` (`Scripts/Dominio`, `Scripts/Office`, `Scripts/Drivers`, `Scripts/Padronizar`, `Scripts/Debloat`).
+  - **Visualizador de Perfis (Empresa vs. Acadêmico)**: Cartões comparativos entre as regras ativas de cada perfil de sistema.
+  - **Grid de 6 Módulos & Tags**: Identificação técnica com tags em destaque (`Active Directory`, `Microsoft ODT`, `pnputil.exe`, `CREATE_NEW_CONSOLE`).
+- **Integração na index.html:** Botão "Ver detalhes" do card do FlashConfig direcionado para a subpágina.
 
 ---
 
 ## 🔲 Tarefas Pendentes para a Próxima Iteração
 
-- [x] Capturas de tela do InvScan (`invscan-gui-dark.png`, `invscan-cli-varredura.png`, `invscan-excel-csv.png`, `invscan-config-app.png`) anexadas e publicadas.
-- [x] Capturas de tela do AutoPrev (`autoprev-dashboard-dark.png`, `autoprev-pdf-laudo.png`, `autoprev-modal-dominio.png`) anexadas e publicadas.
-- [ ] Avaliar a criação de página de detalhes interna para o projeto `projetos/flashconfig/`.
-- [ ] Avaliar a criação de página de detalhes interna para o projeto `projetos/flashconfig/`.
+- [x] Landing pages desenvolvidas para todos os 5 projetos do carrossel (`integracao-unitoledo`, `higienizacao-racks-unitoledo`, `autoprev`, `invscan`, `flashconfig`).
+- [ ] Anexar capturas de tela do FlashConfig (`flashconfig-gui-dark.png`, `flashconfig-modal-dominio.png`, `flashconfig-terminal-execucao.png`, `flashconfig-perfis-padrao.png`) na pasta `img/`.
 
 ### Design / Performance UX
 - [ ] Implementar animações de *Scroll Reveal* (via Intersection Observer) para carregamento suave das seções na página inicial e de detalhes.

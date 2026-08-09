@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FlashConfig: Central de automação e padronização pós-formatação de TI em ambientes Windows 10/11. Software Open Source portátil (.exe) executado direto do pendrive." />
+  <title>FlashConfig — Central de Automação Pós-Formatação de TI</title>
+  <link rel="icon" type="image/png" href="../../img/Icone-aba.png" />
+
+  <style>
+    :root {
+      --bg: #050d18;
+      --bg-soft: #0a1728;
+      --card: #0d1e34;
+      --card-2: #102644;
+      --text: #eaf2ff;
+      --muted: #9fb2ca;
+      --line: rgba(0, 229, 255, 0.15);
+      --line-subtle: rgba(255, 255, 255, 0.08);
+      --accent: #00e5ff;
+      --accent-cyan: #00f2fe;
+      --accent-blue: #3b82f6;
+      --accent-amber: #ffb86b;
+      --success: #10b981;
+      --danger: #ffb86b;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+      --radius: 22px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(0, 229, 255, 0.18), transparent 35%),
+        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.15), transparent 30%),
+        radial-gradient(circle at 50% 80%, rgba(255, 184, 107, 0.06), transparent 40%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      -webkit-user-drag: none;
+      user-drag: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    .container {
+      width: min(100% - 32px, var(--max));
+      margin-inline: auto;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(5, 13, 24, 0.88);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-content {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0284c7 0%, #00e5ff 100%);
+      border: 1px solid rgba(0, 229, 255, 0.5);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.35);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Modern Back Button */
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      border-radius: 14px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(59, 130, 246, 0.05));
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      color: var(--text);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-back:hover {
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.25), rgba(59, 130, 246, 0.2));
+      border-color: rgba(0, 229, 255, 0.6);
+      color: #ffffff;
+      box-shadow: 0 6px 28px rgba(0, 229, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-back svg {
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-back:hover svg {
+      transform: translateX(-4px);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0284c7 0%, #00e5ff 100%);
+      color: #030c1a;
+      font-weight: 800;
+      box-shadow: 0 10px 30px rgba(0, 229, 255, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 40px rgba(0, 229, 255, 0.5);
+      background: linear-gradient(135deg, #38bdf8 0%, #00f2fe 100%);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--line);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(0, 229, 255, 0.12);
+      border-color: rgba(0, 229, 255, 0.4);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* Badges */
+    .badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: rgba(0, 229, 255, 0.12);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      color: var(--accent);
+    }
+
+    .badge-amber {
+      background: rgba(255, 184, 107, 0.12);
+      border-color: rgba(255, 184, 107, 0.3);
+      color: var(--accent-amber);
+    }
+
+    .badge-green {
+      background: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: var(--success);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      color: #ffffff;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--muted);
+      margin-bottom: 36px;
+      max-width: 780px;
+      margin-inline: auto;
+    }
+
+    .hero-ctas {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 50px;
+    }
+
+    .mobile-text {
+      display: none;
+    }
+
+    /* Command Center Board Component (Hero Visual Exclusivo FlashConfig) */
+    .command-center-board {
+      max-width: 860px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, #071629 0%, #0a1b32 100%);
+      border: 1px solid rgba(0, 229, 255, 0.35);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 229, 255, 0.15);
+      text-align: left;
+    }
+
+    .board-header {
+      background: rgba(0, 229, 255, 0.08);
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+    }
+
+    .board-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .board-live-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+
+    .board-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .board-badge-live {
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .board-grid {
+      padding: 24px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .board-module-card {
+      background: rgba(16, 38, 68, 0.6);
+      border: 1px solid rgba(0, 229, 255, 0.15);
+      border-radius: 14px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      transition: all 0.25s ease;
+    }
+
+    .board-module-card:hover {
+      border-color: rgba(0, 229, 255, 0.4);
+      background: rgba(16, 38, 68, 0.9);
+      transform: translateX(4px);
+    }
+
+    .module-info h4 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .module-info p {
+      font-size: 0.83rem;
+      color: var(--muted);
+      margin-top: 2px;
+      font-family: 'SFMono-Regular', Consolas, monospace;
+    }
+
+    .module-status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .progress-bar-bg {
+      width: 120px;
+      height: 7px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #0284c7, var(--accent));
+      border-radius: 999px;
+    }
+
+    .status-tag {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--success);
+      background: rgba(16, 185, 129, 0.12);
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      white-space: nowrap;
+    }
+
+    /* Section Header */
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title .eyebrow {
+      display: inline-block;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .section-title p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-top: 10px;
+      max-width: 650px;
+      margin-inline: auto;
+    }
+
+    /* NOVA SEÇÃO: Árvore do Pendrive de TI */
+    .pendrive-section {
+      padding: 70px 0;
+      background: rgba(10, 23, 40, 0.5);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .pendrive-container {
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 36px;
+      box-shadow: var(--shadow);
+    }
+
+    .pendrive-tree {
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 0.92rem;
+      line-height: 1.8;
+      color: #e2e8f0;
+      background: #040c17;
+      padding: 24px;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      overflow-x: auto;
+    }
+
+    .tree-folder { color: #38bdf8; font-weight: 700; }
+    .tree-file { color: #34d399; }
+    .tree-comment { color: var(--muted); font-size: 0.85rem; }
+
+    /* Dores vs Soluções */
+    .comparison-section {
+      padding: 70px 0;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .comp-card {
+      padding: 36px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--line-subtle);
+      box-shadow: var(--shadow);
+    }
+
+    .comp-card.old-way {
+      border-color: rgba(255, 184, 107, 0.25);
+    }
+
+    .comp-card.flashconfig-way {
+      border-color: rgba(0, 229, 255, 0.4);
+      background: linear-gradient(180deg, var(--card-2), var(--card));
+    }
+
+    .comp-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .comp-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 1.3rem;
+    }
+
+    .old-way .comp-icon {
+      background: rgba(255, 184, 107, 0.15);
+      color: var(--danger);
+    }
+
+    .flashconfig-way .comp-icon {
+      background: rgba(0, 229, 255, 0.15);
+      color: var(--accent);
+    }
+
+    .comp-title h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+
+    .comp-title span {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .comp-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .comp-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.98rem;
+    }
+
+    .comp-list li svg {
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    /* Features Grid (6 Cards) */
+    .features-section {
+      padding: 70px 0;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      padding: 32px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--line-subtle);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0, 229, 255, 0.4);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 229, 255, 0.15);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.15), rgba(59, 130, 246, 0.15));
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    .feature-tech-tag {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: rgba(0, 229, 255, 0.08);
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      color: var(--accent);
+      font-family: monospace;
+    }
+
+    /* NOVA SEÇÃO: Perfis de Padronização */
+    .profiles-section {
+      padding: 70px 0;
+      background: rgba(10, 23, 40, 0.3);
+      border-top: 1px solid var(--line);
+    }
+
+    .profiles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .profile-card {
+      padding: 36px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--line);
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .profile-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(59, 130, 246, 0.2));
+      border: 1px solid rgba(0, 229, 255, 0.4);
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+    }
+
+    .profile-card h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+
+    .profile-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .profile-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .profile-list li svg {
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* Steps Section */
+    .steps-section {
+      padding: 70px 0;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .step-card {
+      padding: 32px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--line-subtle);
+    }
+
+    .step-number {
+      font-size: 2.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    .step-card h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .step-card p {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    /* Open Source Banner */
+    .opensource-section {
+      padding: 70px 0;
+    }
+
+    .opensource-banner {
+      padding: 48px;
+      border-radius: calc(var(--radius) * 1.2);
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.12), rgba(59, 130, 246, 0.08)), var(--card-2);
+      border: 1px solid rgba(0, 229, 255, 0.35);
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .opensource-banner h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .opensource-banner p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 28px;
+      max-width: 680px;
+      margin-inline: auto;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+      padding: 70px 0;
+      background: rgba(10, 23, 40, 0.3);
+      border-top: 1px solid var(--line);
+    }
+
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--line-subtle);
+      border-radius: 16px;
+      background: var(--card);
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+
+    .faq-item:hover {
+      border-color: rgba(0, 229, 255, 0.3);
+    }
+
+    .faq-question {
+      padding: 22px 28px;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .faq-icon {
+      font-size: 1.4rem;
+      transition: transform 0.3s ease;
+      color: var(--accent);
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
+      padding: 0 28px;
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 300px;
+      padding: 0 28px 22px;
+      transition: max-height 0.3s cubic-bezier(1, 0, 1, 0), padding 0.3s ease;
+    }
+
+    /* Screenshots Section (2x2 Grid Max-Width 880px) */
+    .screenshots-section {
+      padding: 70px 0;
+    }
+
+    .screenshots-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 640px) {
+      .screenshots-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .screenshot-item {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--line-subtle);
+      background: var(--card);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .screenshot-item:hover {
+      transform: scale(1.02);
+      border-color: var(--accent);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .screenshot-img {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid var(--line-subtle);
+    }
+
+    .screenshot-placeholder {
+      aspect-ratio: 16/10;
+      background: linear-gradient(135deg, #0d1b2e, #132944);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--muted);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .screenshot-placeholder svg {
+      opacity: 0.6;
+    }
+
+    .screenshot-caption {
+      padding: 16px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border-top: 1px solid var(--line-subtle);
+      background: rgba(5, 13, 24, 0.8);
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(3, 8, 16, 0.92);
+      backdrop-filter: blur(12px);
+      place-items: center;
+      padding: 24px;
+    }
+
+    .lightbox-modal.active {
+      display: grid;
+    }
+
+    .lightbox-content {
+      max-width: 1000px;
+      width: 100%;
+      position: relative;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -48px;
+      right: 0;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--line);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+
+    .lightbox-img {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--line);
+      background: #030a14;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .desktop-text { display: none; }
+      .mobile-text { display: inline; }
+      .nav-links { display: none; }
+      .btn-back { padding: 8px 14px; font-size: 0.85rem; }
+      .hero { padding: 50px 0 40px; }
+      .hero-ctas .btn { padding: 10px 18px; font-size: 0.9rem; gap: 8px; }
+      .opensource-banner { padding: 30px 20px; }
+      .pendrive-container { padding: 24px 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .container { width: min(100% - 20px, var(--max)); }
+      .nav-content { min-height: 62px; gap: 8px; }
+      .brand { font-size: 1.1rem; gap: 8px; }
+      .brand-icon { width: 34px; height: 34px; font-size: 0.9rem; }
+      .btn-back { padding: 7px 12px; font-size: 0.8rem; gap: 6px; border-radius: 10px; }
+      .hero-ctas .btn { padding: 10px 14px; font-size: 0.84rem; gap: 6px; }
+    }
+
+    @media (max-width: 360px) {
+      .container { width: min(100% - 16px, var(--max)); }
+      .brand span { font-size: 0.98rem; }
+      .btn-back { padding: 6px 9px; font-size: 0.78rem; gap: 5px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container nav-content">
+      <a href="#" class="brand">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#030c1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <span>FlashConfig</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#recursos">Módulos</a></li>
+        <li><a href="#pendrive">Estrutura USB</a></li>
+        <li><a href="#perfis">Perfis SO</a></li>
+        <li><a href="#passos">Como Funciona</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#prints">Demonstração</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="../../index.html#projetos" class="btn-back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span>Voltar ao Portfólio</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container hero-content">
+      <div class="badge-group" style="justify-content: center;">
+        <span class="badge">🔒 100% Open Source (MIT)</span>
+        <span class="badge badge-amber">⚡ Portable .exe (Sem Instalação)</span>
+        <span class="badge badge-green">💻 Execução Transparente</span>
+        <span class="badge">🪟 Windows 10 & 11</span>
+      </div>
+      <h1>Central de Automação Pós-Formatação <span>em Escala Corporativa</span></h1>
+      <p class="hero-subtitle">
+        Padronize a configuração de estações de trabalho em minutos: ingresso em domínio Active Directory, instalação automatizada do Office (ODT), Python, drivers `.inf` e expurgo de bloatwares com 100% de transparência.
+      </p>
+      <div class="hero-ctas">
+        <a href="https://github.com/FabraOliveira/FlashConfig" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          <span class="desktop-text">Baixar Executável / Ver no GitHub</span>
+          <span class="mobile-text">Baixar / Ver no GitHub</span>
+        </a>
+        <a href="#recursos" class="btn btn-ghost">
+          Explorar Módulos
+        </a>
+      </div>
+
+      <!-- FlashConfig Command Center Board Component (Hero Visual Exclusivo) -->
+      <div class="command-center-board">
+        <div class="board-header">
+          <div class="board-title-group">
+            <span class="board-live-dot"></span>
+            <span class="board-title">FlashConfig Automation Engine — Live Command Board</span>
+          </div>
+          <span class="board-badge-live">STATUS: PRONTO PARA CAMPO</span>
+        </div>
+        <div class="board-grid">
+          <!-- Módulo 1 -->
+          <div class="board-module-card">
+            <div class="module-info">
+              <h4>🌐 Active Directory Domain Join</h4>
+              <p>Hostname: NB-A4F1E8 | Domínio: empresa.com.br</p>
+            </div>
+            <div class="module-status">
+              <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
+              <span class="status-tag">✅ Ingressado no AD</span>
+            </div>
+          </div>
+
+          <!-- Módulo 2 -->
+          <div class="board-module-card">
+            <div class="module-info">
+              <h4>🏢 Microsoft Office Deployment (ODT)</h4>
+              <p>Pacote: Office 2024 VL (64-bit pt-br)</p>
+            </div>
+            <div class="module-status">
+              <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
+              <span class="status-tag">✅ Concluído (Silent)</span>
+            </div>
+          </div>
+
+          <!-- Módulo 3 -->
+          <div class="board-module-card">
+            <div class="module-info">
+              <h4>📦 Driver Packages (pnputil.exe)</h4>
+              <p>Varredura: subdiretórios *.inf descompactados</p>
+            </div>
+            <div class="module-status">
+              <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
+              <span class="status-tag">✅ 14 Drivers OK</span>
+            </div>
+          </div>
+
+          <!-- Módulo 4 -->
+          <div class="board-module-card">
+            <div class="module-info">
+              <h4>⚙️ System Profile Standardization</h4>
+              <p>Perfil: Perfil Empresa (Power/DarkTheme/AutoOff)</p>
+            </div>
+            <div class="module-status">
+              <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
+              <span class="status-tag">✅ Perfil Aplicado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- NOVA SEÇÃO EXCLUSIVA: Estrutura do Pendrive de TI -->
+  <section id="pendrive" class="pendrive-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Arquitetura Portátil</span>
+        <h2>Estrutura no Pendrive de TI</h2>
+        <p>Sem dependência de instalação no Windows cliente. Copie a pasta para a raiz do seu pendrive e rode em qualquer máquina.</p>
+      </div>
+
+      <div class="pendrive-container">
+        <div class="pendrive-tree">
+          <div><span class="tree-folder">[Seu_Pendrive_TI]/</span></div>
+          <div>└── <span class="tree-folder">FlashConfig/</span></div>
+          <div>    ├── <span class="tree-file">FlashConfig.exe</span>          <span class="tree-comment"># Executável autônomo portátil (PyInstaller)</span></div>
+          <div>    ├── <span class="tree-file">config.json</span>              <span class="tree-comment"># Definições regionais da empresa e do AD</span></div>
+          <div>    ├── <span class="tree-folder">assets/</span>                  <span class="tree-comment"># Ícones e recursos da interface CustomTkinter</span></div>
+          <div>    └── <span class="tree-folder">Scripts/</span>                 <span class="tree-comment"># Scripts de automação (.ps1 / .bat em ASCII)</span></div>
+          <div>        ├── <span class="tree-folder">Dominio/</span>             <span class="tree-comment"># Facilitador.ps1 (Sugestão NB-/PC- + sysdm.cpl)</span></div>
+          <div>        ├── <span class="tree-folder">Office/</span>              <span class="tree-comment"># ODT setup.exe + XMLs Office 2024/365</span></div>
+          <div>        ├── <span class="tree-folder">Drivers/</span>             <span class="tree-comment"># Pasta para subdiretórios de drivers .inf</span></div>
+          <div>        ├── <span class="tree-folder">Padronizar/</span>          <span class="tree-comment"># Scripts dos Perfis Empresa e Acadêmico</span></div>
+          <div>        ├── <span class="tree-folder">Python/</span>              <span class="tree-comment"># Instalador oficial python-3.12.x-amd64.exe</span></div>
+          <div>        └── <span class="tree-folder">Debloat/</span>             <span class="tree-comment"># Expurgo de bloatwares e temporários</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dores vs Soluções -->
+  <section id="dores" class="comparison-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Produtividade em campo</span>
+        <h2>O Fim da Formatação Manual Repetitiva</h2>
+        <p>Compare o tempo e o esforço técnico entre o método tradicional e o FlashConfig.</p>
+      </div>
+
+      <div class="comparison-grid">
+        <!-- Método Tradicional -->
+        <article class="comp-card old-way">
+          <div class="comp-header">
+            <div class="comp-icon">❌</div>
+            <div class="comp-title">
+              <h3>Pós-Formatação Tradicional</h3>
+              <span>Lento, despadronizado e propenso a falhas humanas</span>
+            </div>
+          </div>
+          <ul class="comp-list">
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#ffb86b" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+              <span>Digitação manual de nomes de host e credenciais no Active Directory máquina a máquina.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#ffb86b" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+              <span>Instalação individual de navegadores, pacotes Office e buscadores de drivers externos.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#ffb86b" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+              <span>Esquecimento de regras de energia, deixando computadores suspendendo durante o expediente.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#ffb86b" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+              <span>Processos "sombra" travados sem janela de terminal visível para diagnosticar o erro.</span>
+            </li>
+          </ul>
+        </article>
+
+        <!-- Com FlashConfig -->
+        <article class="comp-card flashconfig-way">
+          <div class="comp-header">
+            <div class="comp-icon">⚡</div>
+            <div class="comp-title">
+              <h3>Com FlashConfig</h3>
+              <span>100% Automatizado, transparente e padronizado</span>
+            </div>
+          </div>
+          <ul class="comp-list">
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#00e5ff" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>Sugestão automática de Service Tag (`NB-`/`PC-`) e credenciais prontas para cópia.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#00e5ff" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>Automação do ODT oficial da Microsoft e pacotes `.inf` via <code>pnputil.exe</code> nativo.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#00e5ff" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>Aplicação em 1 clique do Perfil Empresa ou Acadêmico com debloat automático de bloatwares.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#00e5ff" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>Transparência total com janelas de console visíveis (<code>CREATE_NEW_CONSOLE</code>).</span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid (6 Symmetrical Cards with Tech Tags) -->
+  <section id="recursos" class="features-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Arquitetura de Módulos</span>
+        <h2>Recursos Técnicos de Produção</h2>
+        <p>Projetado especificamente para as demandas de técnicos de TI e administradores de infraestrutura.</p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Card 1 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          </div>
+          <h3>Gerenciamento de Domínio (AD)</h3>
+          <p>Facilitador gráfico com sugestões automáticas de hostnames (`NB-`/`PC-` + Service Tag), sufixo aleatório anti-conflito, cópia rápida de credenciais e atalho para <code>sysdm.cpl</code>.</p>
+          <span class="feature-tech-tag">Active Directory / Facilitador.ps1</span>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          </div>
+          <h3>Instalação do Office via ODT</h3>
+          <p>Automação do *Office Deployment Tool* oficial da Microsoft. Instalação silenciosa do Office 2024 Volume License e Office 365 (64-bit pt-br) sem bloatware de apps extras.</p>
+          <span class="feature-tech-tag">Microsoft ODT / XML Config</span>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+          </div>
+          <h3>Perfis de Padronização de SO</h3>
+          <p>Aplicação em 1 clique de regras prontas: Perfil **Empresa** (plano de energia, tema escuro, desligamento à meia-noite) ou Perfil **Acadêmico** (navegação anônima forçada nos navegadores).</p>
+          <span class="feature-tech-tag">Custom Power / Browser Policies</span>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          </div>
+          <h3>Instalação Automatizada de Drivers</h3>
+          <p>Varredura e instalação silenciosa em subdiretórios de pacotes de drivers descompactados (<code>.inf</code>) através do utilitário nativo do Windows <code>pnputil.exe</code>.</p>
+          <span class="feature-tech-tag">pnputil.exe / Windows Native</span>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          </div>
+          <h3>Debloat & Limpeza de Ativos</h3>
+          <p>Expurgo de arquivos temporários (caches, logs, `%TEMP%`) e remoção em lote de aplicativos pré-instalados e jogos patrocinados do Windows 10/11.</p>
+          <span class="feature-tech-tag">PowerShell AppX Cleanup</span>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+          </div>
+          <h3>Transparência & Elevação UAC</h3>
+          <p>Nenhuma rotina roda em segundo plano "sombra". Cada módulo abre um console visível (<code>CREATE_NEW_CONSOLE</code>) sob privilégios elevados de Administrador via <code>ShellExecuteW</code>.</p>
+          <span class="feature-tech-tag">CREATE_NEW_CONSOLE / ASCII</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOVA SEÇÃO EXCLUSIVA: Perfis Corporativo vs Acadêmico -->
+  <section id="perfis" class="profiles-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Perfis prontos</span>
+        <h2>Padronização de Ambiente em 1 Clique</h2>
+        <p>Escolha o perfil ideal para o destino do computador e aplique todas as diretivas instantaneamente.</p>
+      </div>
+
+      <div class="profiles-grid">
+        <!-- Perfil Empresa -->
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="profile-icon">🏢</div>
+            <div>
+              <h3>Perfil Empresa / Padrão</h3>
+              <span style="font-size: 0.85rem; color: var(--muted);">Ideal para estações de trabalho administrativas</span>
+            </div>
+          </div>
+          <ul class="profile-list">
+            <li>
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Ajusta plano de energia (impede suspensão/hibernação durante expediente).</span>
+            </li>
+            <li>
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Configura tema escuro corporativo no sistema operacional.</span>
+            </li>
+            <li>
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Limpa ícones desnecessários fixados na barra de tarefas.</span>
+            </li>
+            <li>
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Programa o desligamento automático do computador à meia-noite.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Perfil Acadêmico -->
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="profile-icon">🎓</div>
+            <div>
+              <h3>Perfil Acadêmico / Laboratórios</h3>
+              <span style="font-size: 0.85rem; color: var(--muted);">Ideal para labs de informática e computadores públicos</span>
+            </div>
+          </div>
+          <ul class="profile-list">
+            <li>
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Aplica todas as regras do Perfil Empresa/Padrão.</span>
+            </li>
+            <li>
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Força a abertura do Google Chrome em modo anônimo por padrão.</span>
+            </li>
+            <li>
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Força navegação privada no Edge, Firefox, Brave, Opera e Vivaldi.</span>
+            </li>
+            <li>
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Impede o salvamento automático de histórico e senhas nos navegadores.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Como Funciona em 4 Passos -->
+  <section id="passos" class="steps-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Fluxo simples</span>
+        <h2>Automação em 4 Etapas Rápidas</h2>
+        <p>Apenas conecte o pendrive no computador recém-formatado e inicie o executável.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <h3>Copie para o Pendrive</h3>
+          <p>Transfira o <code>FlashConfig.exe</code>, a pasta <code>Scripts/</code> e seu <code>config.json</code> para o seu pendrive de TI.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <h3>Execute como Admin</h3>
+          <p>Espete no computador do cliente e execute o <code>FlashConfig.exe</code> como Administrador (elevação UAC automática).</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <h3>Selecione os Módulos</h3>
+          <p>Marque os módulos desejados (Domínio AD, Office, Drivers, Perfil Empresa/Acadêmico e Debloat).</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">04</div>
+          <h3>Acompanhe nos Consoles</h3>
+          <p>Observe a execução em tempo real nas janelas de terminal visíveis até a finalização completa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section (Accordion) -->
+  <section id="faq" class="faq-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Dúvidas frequentes</span>
+        <h2>Perguntas Frequentes</h2>
+        <p>Esclarecimentos técnicos sobre a arquitetura e execução do FlashConfig.</p>
+      </div>
+
+      <div class="faq-container">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>É necessário ter o Python instalado na máquina de destino?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Não. O arquivo <code>FlashConfig.exe</code> é um executável autônomo portátil que roda diretamente do pendrive sem necessitar de interpretador Python instalado no computador cliente.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>O que significa a "Transparência de Execução"?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Em vez de executar rotinas ocultas em background, o FlashConfig abre uma janela de terminal visível (<code>CREATE_NEW_CONSOLE</code>) para cada ação, permitindo que o técnico acompanhe o progresso e identifique eventuais mensagens do sistema.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Como funciona a instalação do Microsoft Office?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>O FlashConfig automatiza o *Office Deployment Tool (ODT)* oficial da Microsoft com arquivos XML pré-configurados para Office 2024 Volume License ou Office 365 em 64-bit pt-br.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Por que o FlashConfig solicita elevação de Administrador (UAC)?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Rotinas de sistema como ingresso em domínio Active Directory, instalação de drivers via <code>pnputil.exe</code>, alteração de planos de energia e debloat exigem privilégios elevados de sistema para funcionarem sem bloqueios.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capturas / Demonstração (Grid 2x2 Compacta Max-Width 880px) -->
+  <section id="prints" class="screenshots-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Galeria visual</span>
+        <h2>Interface da Ferramenta em Ação</h2>
+        <p>Capturas das principais interfaces e consoles do FlashConfig.</p>
+      </div>
+
+      <div class="screenshots-grid">
+        <!-- Linha 1 -->
+        <div class="screenshot-item" onclick="openLightbox('../../img/flashconfig-gui-dark.png', 'Painel Principal do FlashConfig')">
+          <img src="../../img/flashconfig-gui-dark.png" alt="Painel Principal do FlashConfig" class="screenshot-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="screenshot-placeholder" style="display: none;">
+            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <span><code>flashconfig-gui-dark.png</code><br><small>Painel Principal GUI</small></span>
+          </div>
+          <div class="screenshot-caption">Painel Principal (CustomTkinter)</div>
+        </div>
+
+        <div class="screenshot-item" onclick="openLightbox('../../img/flashconfig-modal-dominio.png', 'Facilitador Gráfico de Domínio AD')">
+          <img src="../../img/flashconfig-modal-dominio.png" alt="Facilitador Gráfico de Domínio AD" class="screenshot-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="screenshot-placeholder" style="display: none;">
+            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line></svg>
+            <span><code>flashconfig-modal-dominio.png</code><br><small>Facilitador de Domínio AD</small></span>
+          </div>
+          <div class="screenshot-caption">Facilitador de Domínio (`sysdm.cpl`)</div>
+        </div>
+
+        <!-- Linha 2 -->
+        <div class="screenshot-item" onclick="openLightbox('../../img/flashconfig-terminal-execucao.png', 'Console de Execução Transparente')">
+          <img src="../../img/flashconfig-terminal-execucao.png" alt="Console de Execução Transparente" class="screenshot-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="screenshot-placeholder" style="display: none;">
+            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+            <span><code>flashconfig-terminal-execucao.png</code><br><small>Terminal de Execução</small></span>
+          </div>
+          <div class="screenshot-caption">Console Transparente (`CREATE_NEW_CONSOLE`)</div>
+        </div>
+
+        <div class="screenshot-item" onclick="openLightbox('../../img/flashconfig-perfis-padrao.png', 'Perfis de Padronização de Sistema')">
+          <img src="../../img/flashconfig-perfis-padrao.png" alt="Perfis de Padronização de Sistema" class="screenshot-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="screenshot-placeholder" style="display: none;">
+            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+            <span><code>flashconfig-perfis-padrao.png</code><br><small>Perfis Empresa / Acadêmico</small></span>
+          </div>
+          <div class="screenshot-caption">Perfis de Padronização de SO</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Open Source Section -->
+  <section id="comunidade" class="opensource-section">
+    <div class="container">
+      <div class="opensource-banner">
+        <h2>Projeto 100% Open Source (Licença MIT)</h2>
+        <p>
+          O FlashConfig é um software livre sob a licença MIT, sem custos ou limitações corporativas. Sinta-se livre para utilizar com sua equipe, auditar o código-fonte e enviar sugestões no GitHub.
+        </p>
+        <a href="https://github.com/FabraOliveira/FlashConfig" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          ⭐ Deixar uma Star no GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox(event)">
+    <div class="lightbox-content">
+      <button class="lightbox-close" onclick="closeLightbox(event)">✕</button>
+      <img id="lightboxImg" class="lightbox-img" src="" alt="Ampliação de print do FlashConfig" />
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div>
+        <strong>FlashConfig</strong> — Central de Automação Pós-Formatação de TI
+        <p style="margin-top: 4px; font-size: 0.82rem;">Desenvolvido por Fabricio de Oliveira. Licenciado sob licença MIT.</p>
+      </div>
+      <ul class="footer-links">
+        <li><a href="../../index.html#projetos">Portfólio</a></li>
+        <li><a href="https://github.com/FabraOliveira/FlashConfig" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="https://github.com/FabraOliveira/FlashConfig/blob/main/README.md" target="_blank" rel="noopener noreferrer">Documentação</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Lightbox, Accordion & Copy Protection Script -->
+  <script>
+    function openLightbox(src, alt) {
+      const modal = document.getElementById('lightboxModal');
+      const img = document.getElementById('lightboxImg');
+      img.src = src;
+      img.alt = alt || 'Visualização do projeto';
+      modal.classList.add('active');
+    }
+
+    function closeLightbox(e) {
+      if (e.target.id === 'lightboxModal' || e.target.classList.contains('lightbox-close')) {
+        document.getElementById('lightboxModal').classList.remove('active');
+      }
+    }
+
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      item.classList.toggle('active');
+    }
+
+    // Proteção estrita contra cópia/arrasto de imagem
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.tagName === 'IMG') e.preventDefault();
+    });
+    document.addEventListener('contextmenu', function(e) {
+      if (e.target.tagName === 'IMG') e.preventDefault();
+    });
+  </script>
+
+</body>
+</html>

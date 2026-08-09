@@ -36,6 +36,8 @@ portfolio-infra/
 ├── projetos/
 │   ├── autoprev/
 │   │   └── index.html  # Landing page do projeto AutoPrev
+│   ├── flashconfig/
+│   │   └── index.html  # Landing page do projeto FlashConfig
 │   ├── higienizacao-racks-unitoledo/
 │   │   └── index.html  # Página de detalhes do projeto Padronização de Racks
 │   ├── integracao-unitoledo/
@@ -71,7 +73,7 @@ A página segue esta sequência fixa de seções:
 | 2 | Padronização de Racks | Ver detalhes (página interna) | ✅ Publicado |
 | 3 | AutoPrev | Ver detalhes (página interna) + Ver repositório | 🔗 GitHub |
 | 4 | InvScan | Ver detalhes (página interna) + Ver repositório | 🔗 GitHub |
-| 5 | FlashConfig | Ver detalhes (modal) + Ver repositório | 🔗 GitHub |
+| 5 | FlashConfig | Ver detalhes (página interna) + Ver repositório | 🔗 GitHub |
 
 > **Regra de botões:** projetos sem repositório público exibem apenas "Ver status". Projetos com repositório exibem dois botões lado a lado (ghost style, hover azul).
 
