@@ -61,7 +61,7 @@ A página segue esta sequência fixa de seções:
 | # | Projeto | Botões | Status |
 |---|---|---|---|
 | 1 | Integração de Infraestrutura — UniToledo Wyden | Ver detalhes (página interna) | ✅ Publicado |
-| 2 | Organização e Higienização dos Racks Não Conformes — UniToledo Wyden | Ver detalhes (página interna) | ✅ Publicado |
+| 2 | Padronização de Racks | Ver detalhes (página interna) | ✅ Publicado |
 | 3 | AutoPrev | Ver detalhes (modal) + Ver repositório | 🔗 GitHub |
 | 4 | InvScan | Ver detalhes (modal) + Ver repositório | 🔗 GitHub |
 | 5 | FlashConfig | Ver detalhes (modal) + Ver repositório | 🔗 GitHub |
