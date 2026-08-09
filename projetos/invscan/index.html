@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="InvScan: Ferramenta Open Source portátil (.exe) para inventário rápido e automatizado de hardware e software em ambientes Windows." />
+  <title>InvScan — Inventário de Hardware e Software Portátil</title>
+  <link rel="icon" type="image/png" href="../../img/Icone-aba.png" />
+
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: #0d1b2e;
+      --card: #10233a;
+      --card-2: #132944;
+      --text: #eaf2ff;
+      --muted: #9fb2ca;
+      --line: rgba(255, 255, 255, 0.10);
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --accent-teal: #10b981;
+      --success: #10b981;
+      --danger: #ffb86b;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --radius: 22px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(59, 130, 246, 0.18), transparent 32%),
+        radial-gradient(circle at 75% 15%, rgba(16, 185, 129, 0.12), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      -webkit-user-drag: none;
+      user-drag: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    .container {
+      width: min(100% - 32px, var(--max));
+      margin-inline: auto;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 17, 31, 0.85);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-content {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #1d4ed8 0%, #10b981 100%);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35), 0 0 15px rgba(16, 185, 129, 0.25);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Modern Back Button */
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      border-radius: 14px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(255, 255, 255, 0.04));
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      color: var(--text);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-back:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(16, 185, 129, 0.15));
+      border-color: rgba(59, 130, 246, 0.5);
+      color: #ffffff;
+      box-shadow: 0 6px 24px rgba(59, 130, 246, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn-back svg {
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-back:hover svg {
+      transform: translateX(-4px);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #1d4ed8);
+      color: #ffffff;
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(59, 130, 246, 0.45);
+      background: linear-gradient(135deg, #60a5fa, var(--accent));
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--line);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(59, 130, 246, 0.12);
+      border-color: rgba(59, 130, 246, 0.4);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* Badges */
+    .badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      color: var(--accent);
+    }
+
+    .badge-emerald {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.25);
+      color: var(--accent-teal);
+    }
+
+    .badge-green {
+      background: rgba(74, 222, 128, 0.1);
+      border-color: rgba(74, 222, 128, 0.25);
+      color: var(--success);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #ffffff 40%, var(--muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent-teal));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--muted);
+      margin-bottom: 36px;
+      max-width: 760px;
+      margin-inline: auto;
+    }
+
+    .hero-ctas {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 50px;
+    }
+
+    .mobile-text {
+      display: none;
+    }
+
+    /* Terminal Preview Component */
+    .terminal-preview {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #030a16;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6);
+      text-align: left;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 0.88rem;
+    }
+
+    .terminal-header {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+
+    .terminal-title {
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .terminal-body {
+      padding: 20px 24px;
+      color: #e2e8f0;
+      line-height: 1.7;
+      overflow-x: auto;
+    }
+
+    .t-blue { color: #60a5fa; }
+    .t-green { color: #34d399; }
+    .t-yellow { color: #fbbf24; }
+    .t-gray { color: #64748b; }
+
+    /* Section Header */
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title .eyebrow {
+      display: inline-block;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .section-title p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-top: 10px;
+      max-width: 650px;
+      margin-inline: auto;
+    }
+
+    /* Dores vs Soluções */
+    .comparison-section {
+      padding: 70px 0;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .comp-card {
+      padding: 36px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .comp-card.old-way {
+      border-color: rgba(255, 184, 107, 0.25);
+    }
+
+    .comp-card.invscan-way {
+      border-color: rgba(59, 130, 246, 0.4);
+      background: linear-gradient(180deg, var(--card-2), var(--card));
+    }
+
+    .comp-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .comp-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 1.3rem;
+    }
+
+    .old-way .comp-icon {
+      background: rgba(255, 184, 107, 0.15);
+      color: var(--danger);
+    }
+
+    .invscan-way .comp-icon {
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--accent);
+    }
+
+    .comp-title h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+
+    .comp-title span {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .comp-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .comp-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.98rem;
+    }
+
+    .comp-list li svg {
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    /* Features Grid */
+    .features-section {
+      padding: 70px 0;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      padding: 32px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--line);
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(59, 130, 246, 0.35);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(16, 185, 129, 0.15));
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    /* Steps Section */
+    .steps-section {
+      padding: 70px 0;
+      background: rgba(13, 27, 46, 0.5);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .step-card {
+      padding: 32px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--line);
+    }
+
+    .step-number {
+      font-size: 2.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent), var(--accent-teal));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    .step-card h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .step-card p {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    /* Open Source Banner */
+    .opensource-section {
+      padding: 70px 0;
+    }
+
+    .opensource-banner {
+      padding: 48px;
+      border-radius: calc(var(--radius) * 1.2);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(16, 185, 129, 0.08)), var(--card-2);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .opensource-banner h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .opensource-banner p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 28px;
+      max-width: 680px;
+      margin-inline: auto;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+      padding: 70px 0;
+      background: rgba(13, 27, 46, 0.3);
+      border-top: 1px solid var(--line);
+    }
+
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--card);
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+
+    .faq-item:hover {
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .faq-question {
+      padding: 22px 28px;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .faq-icon {
+      font-size: 1.4rem;
+      transition: transform 0.3s ease;
+      color: var(--accent);
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), padding 0.3s ease;
+      padding: 0 28px;
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 300px;
+      padding: 0 28px 22px;
+      transition: max-height 0.3s cubic-bezier(1, 0, 1, 0), padding 0.3s ease;
+    }
+
+    /* Screenshots Section */
+    .screenshots-section {
+      padding: 70px 0;
+    }
+
+    .screenshots-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 640px) {
+      .screenshots-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .screenshot-item {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--card);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .screenshot-item:hover {
+      transform: scale(1.02);
+      border-color: var(--accent);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .screenshot-img {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .screenshot-placeholder {
+      aspect-ratio: 16/10;
+      background: linear-gradient(135deg, #0d1b2e, #132944);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--muted);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .screenshot-placeholder svg {
+      opacity: 0.6;
+    }
+
+    .screenshot-caption {
+      padding: 16px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border-top: 1px solid var(--line);
+      background: rgba(7, 17, 31, 0.7);
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(3, 8, 16, 0.92);
+      backdrop-filter: blur(12px);
+      place-items: center;
+      padding: 24px;
+    }
+
+    .lightbox-modal.active {
+      display: grid;
+    }
+
+    .lightbox-content {
+      max-width: 1000px;
+      width: 100%;
+      position: relative;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -48px;
+      right: 0;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--line);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+
+    .lightbox-img {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--line);
+      background: #050d18;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .desktop-text {
+        display: none;
+      }
+      .mobile-text {
+        display: inline;
+      }
+      .nav-links {
+        display: none;
+      }
+      .btn-back {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+      }
+      .hero {
+        padding: 50px 0 40px;
+      }
+      .hero-ctas .btn {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+        gap: 8px;
+      }
+      .hero-ctas .btn svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+      }
+      .opensource-banner {
+        padding: 30px 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        width: min(100% - 20px, var(--max));
+      }
+      .nav-content {
+        min-height: 62px;
+        gap: 8px;
+      }
+      .brand {
+        font-size: 1.1rem;
+        gap: 8px;
+      }
+      .brand-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 0.9rem;
+      }
+      .btn-back {
+        padding: 7px 12px;
+        font-size: 0.8rem;
+        gap: 6px;
+        border-radius: 10px;
+      }
+      .btn-back svg {
+        width: 15px;
+        height: 15px;
+      }
+      .hero-ctas .btn {
+        padding: 10px 14px;
+        font-size: 0.84rem;
+        gap: 6px;
+      }
+      .hero-ctas .btn svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .container {
+        width: min(100% - 16px, var(--max));
+      }
+      .brand span {
+        font-size: 0.98rem;
+      }
+      .btn-back {
+        padding: 6px 9px;
+        font-size: 0.78rem;
+        gap: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container nav-content">
+      <a href="#" class="brand">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+            <circle cx="12" cy="10" r="3" stroke="#34d399"></circle>
+          </svg>
+        </div>
+        <span>InvScan</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#recursos">Recursos</a></li>
+        <li><a href="#passos">Como Funciona</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#prints">Demonstração</a></li>
+        <li><a href="#comunidade">Open Source</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="../../index.html#projetos" class="btn-back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span>Voltar ao Portfólio</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container hero-content">
+      <div class="badge-group" style="justify-content: center;">
+        <span class="badge">🔒 100% Open Source (MIT)</span>
+        <span class="badge badge-emerald">⚡ Portable .exe (Sem Instalação)</span>
+        <span class="badge badge-green">📊 CSV Nativo UTF-8 (Excel)</span>
+        <span class="badge">🪟 Windows 7, 10 & 11</span>
+      </div>
+      <h1>Inventário de TI <span>Rápido, Portátil e sem Instalação</span></h1>
+      <p class="hero-subtitle">
+        O InvScan automatiza a coleta de especificações físicas e lógicas em estações Windows. Identifique patrimônio, hardware, discos SSD/HDD e licenças do Office gerando relatórios em CSV em segundos.
+      </p>
+      <div class="hero-ctas">
+        <a href="https://github.com/FabraOliveira/InvScan" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          <span class="desktop-text">Baixar Última Release / Ver no GitHub</span>
+          <span class="mobile-text">Baixar / Ver no GitHub</span>
+        </a>
+        <a href="#recursos" class="btn btn-ghost">
+          Explorar Recursos
+        </a>
+      </div>
+
+      <!-- Terminal Preview Component -->
+      <div class="terminal-preview">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="terminal-dot dot-red"></span>
+            <span class="terminal-dot dot-yellow"></span>
+            <span class="terminal-dot dot-green"></span>
+          </div>
+          <span class="terminal-title">InvScan CLI — Administrative Audit Console</span>
+          <span style="width: 48px;"></span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="t-blue">[INFO]</span> Executando InvScan v1.0.0 em modo Admin (UAC Elevado)...</div>
+          <div><span class="t-blue">[GUI]</span> Formulário preenchido: Setor=<span class="t-yellow">TI-INFRA</span> | Tipo=<span class="t-yellow">DESKTOP</span></div>
+          <div><span class="t-yellow">[WMI]</span> BIOS Serial Number: <span class="t-gray">"Default String"</span> -> <span class="t-green">Triggering MAC Fallback!</span></div>
+          <div><span class="t-green">[OK]</span> Chave de Identificação gerada: <span class="t-yellow">PATR-A4F1E8</span></div>
+          <div><span class="t-blue">[WMI]</span> Lendo CPU: <span class="t-gray">Intel(R) Core(TM) i7-10700 CPU @ 2.90GHz (16GB RAM)</span></div>
+          <div><span class="t-blue">[STORAGE]</span> Disco Primário: <span class="t-green">SSD 512 GB (MSFT_PhysicalDisk)</span></div>
+          <div><span class="t-blue">[OFFICE]</span> Detecção 4-Camadas (OSPP/Reg): <span class="t-green">Microsoft 365 Apps Enterprise</span></div>
+          <div><span class="t-green">[EXPORT]</span> Gravando dados em <span class="t-yellow">Inventario_Final.csv</span> (UTF-8-BOM ;)... <span class="t-green">SUCESSO!</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dores vs Soluções -->
+  <section id="dores" class="comparison-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Por que utilizar?</span>
+        <h2>Fim das Planilhas Manuais de Ativos de TI</h2>
+        <p>Compare o processo tradicional de auditoria com a velocidade automatizada do InvScan.</p>
+      </div>
+
+      <div class="comparison-grid">
+        <!-- Manutenção Tradicional -->
+        <article class="comp-card old-way">
+          <div class="comp-header">
+            <div class="comp-icon">❌</div>
+            <div class="comp-title">
+              <h3>Inventário Tradicional</h3>
+              <span>Lento, propenso a erros de digitação e omissão</span>
+            </div>
+          </div>
+          <ul class="comp-list">
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#ffb86b" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+              <span>Abertura manual de gavetas do sistema (msinfo32/dxdiag) anotando peças em papel.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#ffb86b" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+              <span>Patrimônio perdido quando a BIOS contém números de série genéricos (`0000000` / `Default String`).</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#ffb86b" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+              <span>Dificuldade em identificar se o disco é SSD ou HD sem abrir a máquina física.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#ffb86b" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+              <span>Erros ao tentar abrir arquivos CSV no Excel desconfigurando acentos e colunas.</span>
+            </li>
+          </ul>
+        </article>
+
+        <!-- Com InvScan -->
+        <article class="comp-card invscan-way">
+          <div class="comp-header">
+            <div class="comp-icon">⚡</div>
+            <div class="comp-title">
+              <h3>Com InvScan</h3>
+              <span>100% Automático, confiável e pronto para o Excel</span>
+            </div>
+          </div>
+          <ul class="comp-list">
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>Coleta completa em segundos executada diretamente do pendrive sem instalar nada.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>Fallback inteligente lendo os 6 dígitos do MAC Address da placa de rede quando a BIOS for omissa.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>Consulta direta WMI Storage identificando com precisão SSD vs HDD e capacidade exata em GB.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#3b82f6" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>Exportação imediata em <code>Inventario_Final.csv</code> (UTF-8-BOM com separador `;`) perfeita no Excel.</span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid (6 Symmetrical Cards) -->
+  <section id="recursos" class="features-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Funcionalidades</span>
+        <h2>Arquitetura e Recursos de Produção</h2>
+        <p>Conheça os diferenciais técnicos projetados para auditores e profissionais de TI em campo.</p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Card 1 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          </div>
+          <h3>100% Portátil (Zero Instalação)</h3>
+          <p>Arquivo executável autônomo (<code>InvScan.exe</code>). Funciona diretamente do pendrive sem depender de instalação de Python, drivers ou bibliotecas no computador cliente.</p>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          </div>
+          <h3>Interface Híbrida Inteligente</h3>
+          <p>Combina a praticidade de um formulário inicial em GUI Dark Mode (CustomTkinter) com a velocidade de varredura automatizada em console CLI sob privilégios de Administrador.</p>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+          </div>
+          <h3>Fallback Inteligente de MAC Address</h3>
+          <p>Se a Service Tag ou número de série da BIOS for nulo ou genérico (ex: <code>0000000</code>), o sistema captura automaticamente os 6 últimos dígitos do endereço MAC físico da placa de rede.</p>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          </div>
+          <h3>Detecção de Office em 4 Camadas</h3>
+          <p>Algoritmo inteligente de inspeção que identifica a versão exata do Microsoft Office inspecionando chaves Click-To-Run, Registro do Windows e bibliotecas binárias <code>version.dll</code>.</p>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+          </div>
+          <h3>Classificação Precisa (SSD vs HDD)</h3>
+          <p>Consulta direta à API WMI Storage (<code>MSFT_PhysicalDisk</code>) diferenciando drives de estado sólido (SSD) de discos rígidos convencionais, filtrando mídias removíveis.</p>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M8 13h8M8 17h8"></path></svg>
+          </div>
+          <h3>CSV Nativo para Excel (UTF-8-BOM)</h3>
+          <p>Cria e atualiza incrementalmente o arquivo <code>Inventario_Final.csv</code> codificado em <code>UTF-8-BOM</code> com delimitador ponto e vírgula (<code>;</code>), perfeito para abertura no Excel.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Como Funciona em 3 Passos -->
+  <section id="passos" class="steps-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Fluxo de trabalho</span>
+        <h2>Inventário Concluído em 3 Etapas</h2>
+        <p>Procedimento simples e padronizado para qualquer técnico em campo.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <h3>Conecte o Pendrive</h3>
+          <p>Insira o pendrive técnico na máquina cliente e execute o <code>InvScan.exe</code> com privilégios de Administrador.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <h3>Preencha o Formulário</h3>
+          <p>Informe o setor, patrimônio (ou deixe em branco para o fallback de MAC) e selecione o tipo de equipamento na GUI.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <h3>Obtenha a Planilha</h3>
+          <p>Acompanhe a varredura automática no terminal CLI e abra o arquivo <code>Inventario_Final.csv</code> atualizado no pendrive.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section (Accordion) -->
+  <section id="faq" class="faq-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Dúvidas comuns</span>
+        <h2>Perguntas Frequentes</h2>
+        <p>Respostas diretas sobre o funcionamento técnico do InvScan em ambientes corporativos.</p>
+      </div>
+
+      <div class="faq-container">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>O InvScan precisa de conexão com a Internet?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Não. O InvScan funciona 100% offline. Toda a varredura é realizada consultando internamente as APIs nativas do WMI e do Registro do Windows, sem realizar chamadas externas.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>É necessário instalar o Python ou dependências na máquina?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Não. O arquivo <code>InvScan.exe</code> foi empacotado via PyInstaller como um executável autônomo contendo todas as bibliotecas necessárias para rodar diretamente do pendrive.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Por que o InvScan solicita elevação de Administrador (UAC)?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>A elevação é necessária para ler informações restritas do sistema, como detalhes avançados de discos físicos (SSD/HDD via <code>MSFT_PhysicalDisk</code>), chaves de ativação do Office e número de série da placa-mãe.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Como o relatório CSV é aberto no Microsoft Excel?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>O arquivo <code>Inventario_Final.csv</code> é gerado nativamente com a marcação <code>UTF-8-BOM</code> e delimitador ponto e vírgula (<code>;</code>), permitindo dar um duplo clique para abri-lo direto no Excel com colunas e acentuação perfeitas.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Como funciona em computadores antigos com Windows 7?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>O projeto acompanha o script de contingência <code>InvScan_Legado.ps1</code> / <code>.bat</code> desenvolvido em PowerShell puro, que pode ser executado em ambientes legados ou com restrições de execução.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capturas / Demonstração -->
+  <section id="prints" class="screenshots-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Galeria visual</span>
+        <h2>Interface da Ferramenta em Ação</h2>
+        <p>Capturas de tela das principais telas e saídas do InvScan.</p>
+      </div>
+
+      <div class="screenshots-grid">
+        <!-- Linha 1: Configuração e Coleta Visual GUI -->
+        <!-- Print 1: Gerenciador de Configurações -->
+        <div class="screenshot-item" onclick="openLightbox('../../img/invscan-config-app.png', 'Painel de Configurações Regionais')">
+          <img src="../../img/invscan-config-app.png" alt="Painel de Configurações Regionais" class="screenshot-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="screenshot-placeholder" style="display: none;">
+            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <span><code>invscan-config-app.png</code><br><small>Configuracoes.exe (config.json)</small></span>
+          </div>
+          <div class="screenshot-caption">Gerenciador de Configurações</div>
+        </div>
+
+        <!-- Print 2: Formulário GUI (CustomTkinter) -->
+        <div class="screenshot-item" onclick="openLightbox('../../img/invscan-gui-dark.png', 'Formulário Inicial GUI do InvScan')">
+          <img src="../../img/invscan-gui-dark.png" alt="Formulário Inicial GUI do InvScan" class="screenshot-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="screenshot-placeholder" style="display: none;">
+            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <span><code>invscan-gui-dark.png</code><br><small>Formulário Inicial GUI</small></span>
+          </div>
+          <div class="screenshot-caption">Formulário GUI (CustomTkinter)</div>
+        </div>
+
+        <!-- Linha 2: Processamento no Terminal e Relatório Final -->
+        <!-- Print 3: Console CLI Elevado (UAC) -->
+        <div class="screenshot-item" onclick="openLightbox('../../img/invscan-cli-varredura.png', 'Terminal CLI de Varredura WMI')">
+          <img src="../../img/invscan-cli-varredura.png" alt="Terminal CLI de Varredura WMI" class="screenshot-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="screenshot-placeholder" style="display: none;">
+            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+            <span><code>invscan-cli-varredura.png</code><br><small>Console CLI WMI</small></span>
+          </div>
+          <div class="screenshot-caption">Console CLI Elevado (UAC)</div>
+        </div>
+
+        <!-- Print 4: Planilha Inventario_Final.csv no Excel -->
+        <div class="screenshot-item" onclick="openLightbox('../../img/invscan-excel-csv.png', 'Planilha CSV de Inventário Final no Excel')">
+          <img src="../../img/invscan-excel-csv.png" alt="Planilha CSV de Inventário Final no Excel" class="screenshot-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="screenshot-placeholder" style="display: none;">
+            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M8 13h8M8 17h8"></path></svg>
+            <span><code>invscan-excel-csv.png</code><br><small>Inventario_Final.csv (Excel)</small></span>
+          </div>
+          <div class="screenshot-caption">Planilha `Inventario_Final.csv`</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Open Source Section -->
+  <section id="comunidade" class="opensource-section">
+    <div class="container">
+      <div class="opensource-banner">
+        <h2>Projeto 100% Open Source (Licença MIT)</h2>
+        <p>
+          O InvScan é um software livre e transparente, sem custos ocultos ou licenças pagas. Sinta-se à vontade para utilizar corporativamente, auditar o código-fonte e contribuir com melhorias no GitHub.
+        </p>
+        <a href="https://github.com/FabraOliveira/InvScan" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          ⭐ Deixar uma Star no GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox(event)">
+    <div class="lightbox-content">
+      <button class="lightbox-close" onclick="closeLightbox(event)">✕</button>
+      <img id="lightboxImg" class="lightbox-img" src="" alt="Ampliação de print do InvScan" />
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div>
+        <strong>InvScan</strong> — Inventário de Hardware e Software
+        <p style="margin-top: 4px; font-size: 0.82rem;">Desenvolvido por Fabricio de Oliveira. Licenciado sob licença MIT.</p>
+      </div>
+      <ul class="footer-links">
+        <li><a href="../../index.html#projetos">Portfólio</a></li>
+        <li><a href="https://github.com/FabraOliveira/InvScan" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="https://github.com/FabraOliveira/InvScan/blob/main/README.md" target="_blank" rel="noopener noreferrer">Documentação</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Lightbox, Accordion & Copy Protection Script -->
+  <script>
+    function openLightbox(src, alt) {
+      const modal = document.getElementById('lightboxModal');
+      const img = document.getElementById('lightboxImg');
+      img.src = src;
+      img.alt = alt || 'Visualização do projeto';
+      modal.classList.add('active');
+    }
+
+    function closeLightbox(e) {
+      if (e.target.id === 'lightboxModal' || e.target.classList.contains('lightbox-close')) {
+        document.getElementById('lightboxModal').classList.remove('active');
+      }
+    }
+
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      item.classList.toggle('active');
+    }
+
+    // Proteção estrita contra cópia/arrasto de imagem
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.tagName === 'IMG') e.preventDefault();
+    });
+    document.addEventListener('contextmenu', function(e) {
+      if (e.target.tagName === 'IMG') e.preventDefault();
+    });
+  </script>
+
+</body>
+</html>

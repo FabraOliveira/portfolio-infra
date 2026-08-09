@@ -34,10 +34,14 @@ portfolio-infra/
 │   ├── UniToledo-Claro.png / UniToledo-Escuro.png
 │   └── ... (demais ícones de UI e redes sociais)
 ├── projetos/
+│   ├── autoprev/
+│   │   └── index.html  # Landing page do projeto AutoPrev
 │   ├── higienizacao-racks-unitoledo/
 │   │   └── index.html  # Página de detalhes do projeto Padronização de Racks
-│   └── integracao-unitoledo/
-│       └── index.html  # Página de detalhes do projeto UniToledo
+│   ├── integracao-unitoledo/
+│   │   └── index.html  # Página de detalhes do projeto UniToledo
+│   └── invscan/
+│       └── index.html  # Landing page do projeto InvScan
 └── .agents/            # Configuração do Antigravity (AG Kit)
     ├── memory/
     │   ├── MEMORY.md
@@ -65,8 +69,8 @@ A página segue esta sequência fixa de seções:
 |---|---|---|---|
 | 1 | Integração de Infraestrutura — UniToledo Wyden | Ver detalhes (página interna) | ✅ Publicado |
 | 2 | Padronização de Racks | Ver detalhes (página interna) | ✅ Publicado |
-| 3 | AutoPrev | Ver detalhes (modal) + Ver repositório | 🔗 GitHub |
-| 4 | InvScan | Ver detalhes (modal) + Ver repositório | 🔗 GitHub |
+| 3 | AutoPrev | Ver detalhes (página interna) + Ver repositório | 🔗 GitHub |
+| 4 | InvScan | Ver detalhes (página interna) + Ver repositório | 🔗 GitHub |
 | 5 | FlashConfig | Ver detalhes (modal) + Ver repositório | 🔗 GitHub |
 
 > **Regra de botões:** projetos sem repositório público exibem apenas "Ver status". Projetos com repositório exibem dois botões lado a lado (ghost style, hover azul).

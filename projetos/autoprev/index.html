@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AutoPrev: Ferramenta Open Source portátil (.exe) para auditoria, automação e geração de laudos técnicos em PDF em ambientes Windows para Field Services e Suporte de TI." />
+  <title>AutoPrev — Automação e Auditoria para Field Services</title>
+  <link rel="icon" type="image/png" href="../../img/Icone-aba.png" />
+
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: #0d1b2e;
+      --card: #10233a;
+      --card-2: #132944;
+      --text: #eaf2ff;
+      --muted: #9fb2ca;
+      --line: rgba(255, 255, 255, 0.10);
+      --accent: #52a8ff;
+      --accent-2: #78e0c4;
+      --danger: #ffb86b;
+      --danger-border: rgba(255, 184, 107, 0.4);
+      --success: #4ade80;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --radius: 22px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(82, 168, 255, 0.18), transparent 32%),
+        radial-gradient(circle at 75% 15%, rgba(120, 224, 196, 0.12), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      -webkit-user-drag: none;
+      user-drag: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    .container {
+      width: min(100% - 32px, var(--max));
+      margin-inline: auto;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(7, 17, 31, 0.85);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-content {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #1d4ed8 0%, #0284c7 100%);
+      border: 1px solid rgba(82, 168, 255, 0.4);
+      box-shadow: 0 8px 24px rgba(2, 132, 199, 0.35), 0 0 15px rgba(245, 158, 11, 0.25);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #3a82f6);
+      color: #ffffff;
+      box-shadow: 0 10px 30px rgba(82, 168, 255, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(82, 168, 255, 0.45);
+      background: linear-gradient(135deg, #60a5fa, var(--accent));
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--line);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(82, 168, 255, 0.12);
+      border-color: rgba(82, 168, 255, 0.4);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 0.88rem;
+      border-radius: 10px;
+    }
+
+    /* Botão Voltar ao Portfólio Moderno */
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      border-radius: 14px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, rgba(82, 168, 255, 0.08), rgba(255, 255, 255, 0.04));
+      border: 1px solid rgba(82, 168, 255, 0.25);
+      color: var(--text);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-back:hover {
+      background: linear-gradient(135deg, rgba(82, 168, 255, 0.2), rgba(120, 224, 196, 0.15));
+      border-color: rgba(82, 168, 255, 0.5);
+      color: #ffffff;
+      box-shadow: 0 6px 24px rgba(82, 168, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn-back svg {
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-back:hover svg {
+      transform: translateX(-4px);
+    }
+
+    /* Badges */
+    .badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: rgba(82, 168, 255, 0.1);
+      border: 1px solid rgba(82, 168, 255, 0.25);
+      color: var(--accent);
+    }
+
+    .badge-teal {
+      background: rgba(120, 224, 196, 0.1);
+      border-color: rgba(120, 224, 196, 0.25);
+      color: var(--accent-2);
+    }
+
+    .badge-green {
+      background: rgba(74, 222, 128, 0.1);
+      border-color: rgba(74, 222, 128, 0.25);
+      color: var(--success);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #ffffff 40%, var(--muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--muted);
+      margin-bottom: 36px;
+      max-width: 760px;
+      margin-inline: auto;
+    }
+
+    .hero-ctas {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    /* Section Header */
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title .eyebrow {
+      display: inline-block;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .section-title p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-top: 10px;
+      max-width: 650px;
+      margin-inline: auto;
+    }
+
+    /* Dores vs Soluções */
+    .comparison-section {
+      padding: 70px 0;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .comp-card {
+      padding: 36px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .comp-card.old-way {
+      border-color: rgba(255, 184, 107, 0.25);
+    }
+
+    .comp-card.autoprev-way {
+      border-color: rgba(82, 168, 255, 0.4);
+      background: linear-gradient(180deg, var(--card-2), var(--card));
+    }
+
+    .comp-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .comp-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 1.3rem;
+    }
+
+    .old-way .comp-icon {
+      background: rgba(255, 184, 107, 0.15);
+      color: var(--danger);
+    }
+
+    .autoprev-way .comp-icon {
+      background: rgba(82, 168, 255, 0.15);
+      color: var(--accent);
+    }
+
+    .comp-title h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+
+    .comp-title span {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .comp-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .comp-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.98rem;
+    }
+
+    .comp-list li svg {
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    /* Features Grid */
+    .features-section {
+      padding: 70px 0;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      padding: 32px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--line);
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(82, 168, 255, 0.35);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(82, 168, 255, 0.15), rgba(120, 224, 196, 0.15));
+      border: 1px solid rgba(82, 168, 255, 0.25);
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    /* Steps Section */
+    .steps-section {
+      padding: 70px 0;
+      background: rgba(13, 27, 46, 0.5);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .step-card {
+      padding: 32px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--line);
+      position: relative;
+    }
+
+    .step-number {
+      font-size: 2.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    .step-card h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .step-card p {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    /* Open Source Banner */
+    .opensource-section {
+      padding: 70px 0;
+    }
+
+    .opensource-banner {
+      padding: 48px;
+      border-radius: calc(var(--radius) * 1.2);
+      background: linear-gradient(135deg, rgba(82, 168, 255, 0.12), rgba(120, 224, 196, 0.08)), var(--card-2);
+      border: 1px solid rgba(82, 168, 255, 0.3);
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .opensource-banner h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .opensource-banner p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 28px;
+      max-width: 680px;
+      margin-inline: auto;
+    }
+
+    /* Screenshots Section */
+    .screenshots-section {
+      padding: 70px 0;
+    }
+
+    .screenshots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .screenshot-item {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--card);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .screenshot-item:hover {
+      transform: scale(1.02);
+      border-color: var(--accent);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .screenshot-img {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .screenshot-placeholder {
+      aspect-ratio: 16/10;
+      background: linear-gradient(135deg, #0d1b2e, #132944);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--muted);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .screenshot-placeholder svg {
+      opacity: 0.6;
+    }
+
+    .screenshot-caption {
+      padding: 16px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border-top: 1px solid var(--line);
+      background: rgba(7, 17, 31, 0.7);
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(3, 8, 16, 0.92);
+      backdrop-filter: blur(12px);
+      place-items: center;
+      padding: 24px;
+    }
+
+    .lightbox-modal.active {
+      display: grid;
+    }
+
+    .lightbox-content {
+      max-width: 1000px;
+      width: 100%;
+      position: relative;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -48px;
+      right: 0;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--line);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+
+    .lightbox-img {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--line);
+      background: #050d18;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .mobile-text {
+      display: none;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .desktop-text {
+        display: none;
+      }
+      .mobile-text {
+        display: inline;
+      }
+      .nav-links {
+        display: none;
+      }
+      .btn-back {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+      }
+      .hero {
+        padding: 50px 0 40px;
+      }
+      .hero-ctas .btn {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+        gap: 8px;
+      }
+      .hero-ctas .btn svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+      }
+      .opensource-banner {
+        padding: 30px 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        width: min(100% - 20px, var(--max));
+      }
+      .nav-content {
+        min-height: 62px;
+        gap: 8px;
+      }
+      .brand {
+        font-size: 1.1rem;
+        gap: 8px;
+      }
+      .brand-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 0.9rem;
+        border-radius: 99px;
+      }
+      .btn-back {
+        padding: 7px 12px;
+        font-size: 0.8rem;
+        gap: 6px;
+        border-radius: 10px;
+      }
+      .btn-back svg {
+        width: 15px;
+        height: 15px;
+      }
+      .hero-ctas .btn {
+        padding: 10px 14px;
+        font-size: 0.84rem;
+        gap: 6px;
+      }
+      .hero-ctas .btn svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .container {
+        width: min(100% - 16px, var(--max));
+      }
+      .brand span {
+        font-size: 0.98rem;
+      }
+      .btn-back {
+        padding: 6px 9px;
+        font-size: 0.78rem;
+        gap: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container nav-content">
+      <a href="#" class="brand">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" fill="#f59e0b" stroke="#fbbf24" stroke-width="0.8" transform="scale(0.48) translate(13, 13)"/>
+          </svg>
+        </div>
+        <span>AutoPrev</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#dores">Dores vs Soluções</a></li>
+        <li><a href="#recursos">Recursos</a></li>
+        <li><a href="#passos">Como Funciona</a></li>
+        <li><a href="#prints">Demonstração</a></li>
+        <li><a href="#comunidade">Open Source</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="../../index.html#projetos" class="btn-back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span>Voltar ao Portfólio</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container hero-content">
+      <div class="badge-group" style="justify-content: center;">
+        <span class="badge">🔒 100% Open Source</span>
+        <span class="badge badge-teal">⚡ Portable .exe (Sem Instalação)</span>
+        <span class="badge badge-green">📄 Laudos Nativo em PDF</span>
+      </div>
+      <h1>Automação e Auditoria para <span>Field Services & Suporte TI</span></h1>
+      <p class="hero-subtitle">
+        O AutoPrev substitui procedimentos manuais lentos por diagnósticos automáticos em 1 clique, persistência de sessão resiliente a reboots e relatórios formais prontos para o cliente final.
+      </p>
+      <div class="hero-ctas">
+        <a href="https://github.com/FabraOliveira/AutoPrev" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          <span class="desktop-text">Baixar / Ver Repositório no GitHub</span>
+          <span class="mobile-text">Baixar / Ver Repositório</span>
+        </a>
+        <a href="#recursos" class="btn btn-ghost">
+          Explorar Funcionalidades
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dores vs Soluções -->
+  <section id="dores" class="comparison-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Por que mudar?</span>
+        <h2>O Fim dos Processos Manuais no Suporte de TI</h2>
+        <p>Veja como o AutoPrev transforma a rotina técnica eliminando retrabalhos e incertezas.</p>
+      </div>
+
+      <div class="comparison-grid">
+        <!-- Manutenção Tradicional -->
+        <article class="comp-card old-way">
+          <div class="comp-header">
+            <div class="comp-icon">❌</div>
+            <div class="comp-title">
+              <h3>Manutenção Tradicional</h3>
+              <span>Lenta, suscetível a erros e sem registro</span>
+            </div>
+          </div>
+          <ul class="comp-list">
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#ffb86b" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+              <span>Verificação manual demorada de chaves de licença e ativação máquina a máquina.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#ffb86b" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+              <span>Ausência de comprovante formal para apresentar ao gestor ou cliente no término do atendimento.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#ffb86b" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+              <span>Perda de contexto e progresso quando a máquina precisa ser reiniciada no meio do processo.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#ffb86b" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+              <span>Esforço repetitivo pesquisando Service Tag na placa-mãe para montar hostnames padrão.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#ffb86b" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+              <span>Tempo perdido apagando arquivos temporários manualmente e removendo aplicativos indesejados (bloatware).</span>
+            </li>
+          </ul>
+        </article>
+
+        <!-- Com AutoPrev -->
+        <article class="comp-card autoprev-way">
+          <div class="comp-header">
+            <div class="comp-icon">⚡</div>
+            <div class="comp-title">
+              <h3>Com AutoPrev</h3>
+              <span>Padronizado, rápido e auditável em PDF</span>
+            </div>
+          </div>
+          <ul class="comp-list">
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#52a8ff" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>Auditoria precisa de Office e Windows via rotinas integradas de OSPP e WMI sem falsos positivos.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#52a8ff" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>Geração imediata de laudo técnico em PDF assinado em <code>C:\AutoPrev\</code> e cópia no pendrive.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#52a8ff" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>Persistência inteligente de sessão JSON: retoma o atendimento automaticamente pós-reboot.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#52a8ff" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>Facilitador de hostname via PowerShell lendo os 6 últimos dígitos da Service Tag automaticamente.</span>
+            </li>
+            <li>
+              <svg width="20" height="20" fill="none" stroke="#52a8ff" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>Módulos de Limpeza & Debloat para eliminação automática de temporários (<code>%TEMP%</code>, cache) e remoção de bloatwares.</span>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section id="recursos" class="features-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Funcionalidades</span>
+        <h2>Arquitetura e Recursos de Produção</h2>
+        <p>Projetado para operar em campo de forma 100% autônoma e sem dependências externas.</p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Card 1 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          </div>
+          <h3>Laudo Técnico PDF Nativo</h3>
+          <p>Compila a auditoria e as rotinas executadas diretamente em um arquivo PDF real (via biblioteca <code>fpdf2</code>). Salva localmente e replica como backup no pendrive do técnico.</p>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
+          <h3>Auditoria Avançada de Licenças</h3>
+          <p>Leitura rigorosa do status de ativação do Microsoft Office e Windows através de consultas diretas a scripts WMI/OSPP.vbs, eliminando laudos incorretos.</p>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          </div>
+          <h3>Facilitador de Domínio & Hostname</h3>
+          <p>Capta via PowerShell os 6 dígitos finais da placa-mãe (Service Tag) e sugere a nomenclatura padronizada com botão de cópia e acesso direto a <code>sysdm.cpl</code>.</p>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+          </div>
+          <h3>Persistência de Sessão (Auto-Save)</h3>
+          <p>Monitoramento contínuo em estado temporário JSON (<code>session_state.json</code>). Permite reiniciar a máquina para aplicar atualizações e retomar a sessão sem perder marcações.</p>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          </div>
+          <h3>Execução Assíncrona Elevada (UAC)</h3>
+          <p>Executa rotinas administrativas via PowerShell (<code>Start-Process -Verb RunAs -Wait</code>) em threads paralelas, mantendo a interface leve e responsiva sem travamentos.</p>
+        </article>
+
+        <!-- Card 6: Limpeza & Debloat -->
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 11D12 11M19 11C19 7 15 3 11 3C7 3 3 7 3 11C3 15 7 19 11 19C15 19 19 15 19 11Z"></path><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          </div>
+          <h3>Limpeza de Disco & Debloat do Windows</h3>
+          <p>Modal exclusivo (<code>DiskSpaceModal</code>) e rotinas para expurgo de arquivos temporários (<code>%TEMP%</code>, <code>SoftwareDistribution</code>, <code>Prefetch</code>), debloat de bloatwares e upgrade de edição em 1 clique.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Como Funciona em 3 Passos -->
+  <section id="passos" class="steps-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Fluxo de trabalho</span>
+        <h2>Manutenção Concluída em 3 Passos</h2>
+        <p>Sem instalações complexas. Coloque no seu pendrive e execute em qualquer máquina Windows.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <h3>Conecte & Execute</h3>
+          <p>Execute o arquivo portátil <code>AutoPrev.exe</code> diretamente do pendrive técnico sem a necessidade de instalar nada no SO cliente.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <h3>Audite & Modifique</h3>
+          <p>Rode a checagem com 1 clique, aplique melhorias com os modais de ação rápida e execute reboots com a sessão preservada.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <h3>Gere o Laudo PDF</h3>
+          <p>Exportar o relatório completo assinado em PDF para salvar localmente em <code>C:\AutoPrev\</code> e garantir o laudo de atendimento.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capturas / Demonstração -->
+  <section id="prints" class="screenshots-section">
+    <div class="container">
+      <div class="section-title">
+        <span class="eyebrow">Galeria visual</span>
+        <h2>Interface da Ferramenta em Ação</h2>
+        <p>Capturas de tela das principais telas do AutoPrev durante a rotina de atendimento.</p>
+      </div>
+
+      <div class="screenshots-grid">
+        <!-- Print 1 -->
+        <div class="screenshot-item" onclick="openLightbox('../../img/autoprev-dashboard-dark.png', 'Painel Principal do AutoPrev em Dark Mode')">
+          <img src="../../img/autoprev-dashboard-dark.png" alt="Painel Principal do AutoPrev em Dark Mode" class="screenshot-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="screenshot-placeholder" style="display: none;">
+            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <span><code>autoprev-dashboard-dark.png</code><br><small>Painel Principal de Auditoria</small></span>
+          </div>
+          <div class="screenshot-caption">Dashboard Principal (CustomTkinter)</div>
+        </div>
+
+        <!-- Print 2 -->
+        <div class="screenshot-item" onclick="openLightbox('../../img/autoprev-pdf-laudo.png', 'Laudo Técnico PDF Gerado Nativo')">
+          <img src="../../img/autoprev-pdf-laudo.png" alt="Laudo Técnico PDF Gerado Nativo" class="screenshot-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="screenshot-placeholder" style="display: none;">
+            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            <span><code>autoprev-pdf-laudo.png</code><br><small>Relatório Gerado em PDF</small></span>
+          </div>
+          <div class="screenshot-caption">Laudo Técnico Final em PDF</div>
+        </div>
+
+        <!-- Print 3 -->
+        <div class="screenshot-item" onclick="openLightbox('../../img/autoprev-modal-dominio.png', 'Modal Facilitador de Domínio e Service Tag')">
+          <img src="../../img/autoprev-modal-dominio.png" alt="Modal Facilitador de Domínio e Service Tag" class="screenshot-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="screenshot-placeholder" style="display: none;">
+            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M9 9h6v6H9z"></path></svg>
+            <span><code>autoprev-modal-dominio.png</code><br><small>Service Tag & Hostname</small></span>
+          </div>
+          <div class="screenshot-caption">Facilitador de Domínio (sysdm.cpl)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Open Source Section -->
+  <section id="comunidade" class="opensource-section">
+    <div class="container">
+      <div class="opensource-banner">
+        <h2>Projeto 100% Livre e Transparente</h2>
+        <p>
+          O AutoPrev foi desenvolvido sem nenhuma dependência de infraestruturas proprietárias, senhas ou URLs internas salvas. Pode ser clonado, auditado e adaptado para qualquer ambiente técnico de forma segura.
+        </p>
+        <a href="https://github.com/FabraOliveira/AutoPrev" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          ⭐ Deixar uma Star no GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox(event)">
+    <div class="lightbox-content">
+      <button class="lightbox-close" onclick="closeLightbox(event)">✕</button>
+      <img id="lightboxImg" class="lightbox-img" src="" alt="Ampliação de print do AutoPrev" />
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div>
+        <strong>AutoPrev</strong> — Automação de Field Services & Suporte TI
+        <p style="margin-top: 4px; font-size: 0.82rem;">Desenvolvido por Fabricio de Oliveira. Licenciado sob licença MIT.</p>
+      </div>
+      <ul class="footer-links">
+        <li><a href="../../index.html#projetos">Portfólio</a></li>
+        <li><a href="https://github.com/FabraOliveira/AutoPrev" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="https://github.com/FabraOliveira/AutoPrev/blob/main/README.md" target="_blank" rel="noopener noreferrer">Documentação</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Lightbox & Copy Protection Script -->
+  <script>
+    function openLightbox(src, alt) {
+      const modal = document.getElementById('lightboxModal');
+      const img = document.getElementById('lightboxImg');
+      img.src = src;
+      img.alt = alt || 'Visualização do projeto';
+      modal.classList.add('active');
+    }
+
+    function closeLightbox(e) {
+      if (e.target.id === 'lightboxModal' || e.target.classList.contains('lightbox-close')) {
+        document.getElementById('lightboxModal').classList.remove('active');
+      }
+    }
+
+    // Proteção estrita contra cópia/arrasto de imagem
+    document.addEventListener('dragstart', function(e) {
+      if (e.target.tagName === 'IMG') e.preventDefault();
+    });
+    document.addEventListener('contextmenu', function(e) {
+      if (e.target.tagName === 'IMG') e.preventDefault();
+    });
+  </script>
+
+</body>
+</html>
