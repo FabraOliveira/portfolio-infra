@@ -1,29 +1,24 @@
 # STATE.md — Controle de Contexto
-**Sessão:** 2026-08-02 → 2026-08-03 | **Branch:** `main` | **Último commit:** `ef8a852`
+**Sessão:** 2026-08-08 | **Branch:** `main` | **Último commit:** `45fc387`
 
 ---
 
 ## ✅ Atividades Concluídas nesta Sessão
 
-### Reestruturação e Atualização dos Cards de Projetos (`index.html` & `README.md`)
-- **Novo Card (3º Lugar):** Adicionado card do projeto **`InvScan`** (Automação de inventário de hardware e software via WMI), com texto descritivo, modal dinâmico e link para o repositório GitHub.
-- **Card Atualizado (4º Lugar):** Card *Software de Pós Formatação Coorp* renomeado e atualizado para **`FlashConfig`** (Ferramenta open-source de pós-formatação em escala corporativa via pendrive), com botões para modal e repositório GitHub.
-- **Card Atualizado (5º Lugar - Último):** Card *Modernização de Equipamentos* atualizado para **`Organização e Higienização dos hacks não conformes — UniToledo Wyden`**, com descrição resumida do projeto de rede e botão de status.
-- **Ordem Atualizada do Carrossel:** UniToledo Wyden (1º) → AutoPrev (2º) → InvScan (3º) → FlashConfig (4º) → Organização e Higienização dos Racks UniToledo Wyden (5º).
-- **README.md:** Tabela de projetos exibidos e mapa de estrutura do projeto atualizados para refletir exatamente os novos cards.
+### Página de Detalhes — Organização e Higienização de Racks UniToledo Wyden
+- **Página Interna Criada (`projetos/higienizacao-racks-unitoledo/index.html`):**
+  - **Hero & Subtítulo:** "Organização e Higienização de Racks" — UniToledo Wyden (Prédios 02 e 03) com pílulas de metadados e estatísticas de infraestrutura.
+  - **Seção Contexto e Desafio:** Texto detalhando a higienização física, etiquetagem e manutenção técnica.
+  - **Card de Troubleshooting:** Seção de destaque `🚨 Troubleshooting: O Caso do Switch 30` detalhando a falha de loop de rede e a remoção de cabo legado.
+  - **Galeria Comparativa por Setor:** Divisão em 6 setores com comparação lado a lado de fotos Antes e Depois (Hack principal Prédio 03, Tempo Integral I, Lab Info, Lab Química, Biblioteca, Secretaria).
+  - **Proteção de Imagens:** Inclusão de `user-drag: none`, `user-select: none`, `draggable="false"`, `oncontextmenu="return false;"` e interceptação no JS para bloquear arrasto e salvamento/abertura em nova guia.
+  - **Lightbox Modal:** Visualizador de imagem ampliada em tela cheia via JS.
 
-### Ícones de Projetos & Estilização (`img/` & `styles.css`)
-- **Ícones de Projetos:** Adicionados e referenciados os novos pares de ícones:
-  - `FlashConfig--tema-claro.png` e `FlashConfig--tema-escuro.png`
-  - `InvScan--tema-claro.png` e `InvScan--tema-escuro.png`
-- **Padronização de Tamanho de Ícones:** Definida dimensão fixa de `96px x 96px` com `object-fit: contain` para `.project-img`, garantindo alinhamento e proporção entre todos os cards.
-
-### UX do Carrossel Mobile (`styles.css`)
-- **Card Peeking:** No modo mobile (`<= 768px`), o card ajusta para `flex: 0 0 85%` com `scroll-snap-align: center`, deixando ~15% do próximo card visível para indicar arrasto horizontal (*swipe*).
-- **Setas Compactas:** Reativadas as setas de navegação `.carousel-btn` em tamanho compacto (`36px x 36px`) com *backdrop blur* nas extremidades da tela mobile.
+### Atualização da Página Inicial (`index.html`)
+- **Card 5 (Projetos):** Atualizado o botão de "Ver status" (modal) para link direto `<a class="mini-btn primary" href="./projetos/higienizacao-racks-unitoledo/index.html">Ver detalhes</a>`.
 
 ### Git & Deploy
-- **Publicação:** Alterações commitadas e enviadas (`git push origin main`) para o repositório público e GitHub Pages.
+- **Commit & Push:** Imagens das pastas `img/Antes` e `img/Depois` juntamente com a nova página e `index.html` commitadas (`45fc387`) e enviadas com sucesso para a branch `main` do GitHub Pages.
 
 ---
 

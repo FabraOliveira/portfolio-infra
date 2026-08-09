@@ -61,10 +61,10 @@ A página segue esta sequência fixa de seções:
 | # | Projeto | Botões | Status |
 |---|---|---|---|
 | 1 | Integração de Infraestrutura — UniToledo Wyden | Ver detalhes (página interna) | ✅ Publicado |
-| 2 | AutoPrev | Ver detalhes (modal) + Ver repositório | 🔗 GitHub |
-| 3 | InvScan | Ver detalhes (modal) + Ver repositório | 🔗 GitHub |
-| 4 | FlashConfig | Ver detalhes (modal) + Ver repositório | 🔗 GitHub |
-| 5 | Organização e Higienização dos hacks não conformes — UniToledo Wyden | Ver status (modal) | 🚧 Em breve |
+| 2 | Organização e Higienização dos Racks Não Conformes — UniToledo Wyden | Ver detalhes (página interna) | ✅ Publicado |
+| 3 | AutoPrev | Ver detalhes (modal) + Ver repositório | 🔗 GitHub |
+| 4 | InvScan | Ver detalhes (modal) + Ver repositório | 🔗 GitHub |
+| 5 | FlashConfig | Ver detalhes (modal) + Ver repositório | 🔗 GitHub |
 
 > **Regra de botões:** projetos sem repositório público exibem apenas "Ver status". Projetos com repositório exibem dois botões lado a lado (ghost style, hover azul).
 
