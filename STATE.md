@@ -46,6 +46,13 @@
   - **Árvore de Diretórios do Pendrive**: Componente gráfico exclusivo simulando a estrutura física do pendrive `FlashConfig/` (`Scripts/Dominio`, `Scripts/Office`, `Scripts/Drivers`, `Scripts/Padronizar`, `Scripts/Debloat`).
 - **Integração na index.html:** Botão "Ver detalhes" do card do FlashConfig direcionado para a subpágina.
 
+### Auditoria de Limpeza & Clean Code
+- **Expurgo de Código Morto & Arquivos Órfãos:**
+  - Removido o modal `#statusModal` referente ao projeto descontinuado de *"modernização de mais de 100 notebooks corporativos"* em `index.html`.
+  - Deletados os arquivos órfãos com placeholders `projetos/automacao-windows.html` e `projetos/integracao-unitoledo.html`.
+  - Eliminadas ~120 linhas de JS e CSS não utilizadas em `script.js` e `styles.css`.
+
+
 ---
 
 ## 🔲 Tarefas Pendentes para a Próxima Iteração

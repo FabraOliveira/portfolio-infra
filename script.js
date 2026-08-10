@@ -78,32 +78,3 @@ function scrollCarousel(direction) {
   }
 }
 
-// Modal Logic
-function openModal(text) {
-  const modal = document.getElementById("statusModal");
-  if (modal) {
-    if (text) {
-      const p = modal.querySelector(".modal-content p");
-      if (p) p.textContent = text;
-    }
-    modal.classList.add("active");
-  }
-}
-
-function closeModal() {
-  const modal = document.getElementById("statusModal");
-  if (modal) {
-    modal.classList.remove("active");
-  }
-}
-
-document.addEventListener("click", (event) => {
-  const modal = document.getElementById("statusModal");
-  if (modal && modal.classList.contains("active")) {
-    const modalContent = modal.querySelector(".modal-content");
-    // Se o clique não foi no conteúdo do modal e nem no botão que o abriu
-    if (!modalContent.contains(event.target) && !event.target.hasAttribute("onclick")) {
-      closeModal();
-    }
-  }
-});
