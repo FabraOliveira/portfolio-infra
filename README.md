@@ -23,8 +23,8 @@ Atualmente também curso **Redes de Computadores**, buscando aprofundar meus con
 ```text
 portfolio-infra/
 ├── index.html          # Página principal (SPA estática)
-├── styles.css          # Todos os estilos (dark/light theme, componentes)
-├── script.js           # Lógica: tema, menu mobile, carrossel, modal dinâmico
+├── styles.css          # Todos os estilos (dark/light theme, componentes, simulador GUI)
+├── script.js           # Lógica: tema, menu mobile responsivo, carrossel de projetos
 ├── img/                # Ícones e imagens dos projetos e UI
 │   ├── Antes/          # Imagens do estado inicial dos racks (comparativo)
 │   ├── Depois/         # Imagens do estado final higienizado e organizado (comparativo)
@@ -37,7 +37,7 @@ portfolio-infra/
 │   ├── autoprev/
 │   │   └── index.html  # Landing page do projeto AutoPrev
 │   ├── flashconfig/
-│   │   └── index.html  # Landing page do projeto FlashConfig
+│   │   └── index.html  # Landing page do projeto FlashConfig (com Simulador Fiel da GUI)
 │   ├── higienizacao-racks-unitoledo/
 │   │   └── index.html  # Página de detalhes do projeto Padronização de Racks
 │   ├── integracao-unitoledo/
@@ -75,7 +75,7 @@ A página segue esta sequência fixa de seções:
 | 4 | InvScan | Ver detalhes (página interna) + Ver repositório | 🔗 GitHub |
 | 5 | FlashConfig | Ver detalhes (página interna) + Ver repositório | 🔗 GitHub |
 
-> **Regra de botões:** projetos sem repositório público exibem apenas "Ver status". Projetos com repositório exibem dois botões lado a lado (ghost style, hover azul).
+> **Regra de botões:** Todos os projetos possuem páginas internas completas. Projetos open-source possuem botão adicional direto para o repositório público no GitHub.
 
 ---
 
@@ -84,7 +84,7 @@ A página segue esta sequência fixa de seções:
 - **Tema**: Dark por padrão, com alternância para Light via botão no header
 - **Botões primários (hero)**: filled accent (`var(--accent)`)
 - **Botões de projeto (`.project-actions`)**: ghost/outline, hover → fundo azul com sombra luminosa
-- **Modal dinâmico**: `openModal(text)` injeta texto específico por projeto
+- **Simulador Interativo da GUI**: réplica HTML/CSS/JS idêntica a softwares de desktop para demonstração prática sem dependência de prints
 - **Ícones de projeto**: padronizados com dimensão de `96px x 96px` (`object-fit: contain`)
 - **Tema claro/escuro para ícones**: controlado via classes `.project-img-light` e `.project-img-dark` com pares `[nome]--tema-claro.png` e `[nome]--tema-escuro.png`
 - **Carrossel Mobile**: exibição com card peeking (`85%` de largura para mostrar ~15% do próximo card) e setas compactas visíveis para excelente usabilidade em touch.

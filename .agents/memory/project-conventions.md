@@ -22,10 +22,14 @@ updated: 2026-07-10
 - Em telas `<= 768px`, os cards de projeto usam `flex: 0 0 85%` e `scroll-snap-align: center` (efeito *card peeking* de ~15% do próximo card).
 - Botões de navegação (`.carousel-btn`) permanecem ativos no mobile em formato compacto (`36px x 36px`) para facilidade de toque.
 
-## Modal Dinâmico
-- A função `openModal(text)` em `script.js` aceita um texto como parâmetro e o injeta no `<p>` do modal.
-- Cada botão que abre o modal deve passar uma descrição resumida do projeto (máximo 3 linhas / ~200 caracteres).
-- Nunca chamar `openModal()` sem argumento em projetos — sempre passar o texto específico do projeto.
+## Simuladores Interativos de GUI (Subpáginas de Projetos)
+- Ferramentas interativas de demonstração devem ser construídas puramente em HTML/CSS/JS nativos, simulando o visual fiel de softwares desktop (CustomTkinter Dark Mode).
+- Abas e menus laterais usam alternância dinâmica de views. Em dispositivos móveis (< 768px), o menu converte-se em barra de pílulas horizontais com rolagem por toque (*touch-scroll*).
+- Cliques em botões de ação acionam um modal explicativo exibindo o fluxo do script, comandos e simulação de terminal visível (`CREATE_NEW_CONSOLE`).
+
+## Padrões de Clean Code
+- **Expurgo de Código Morto:** Não manter arquivos soltos (placeholders `.html`), estilos CSS não utilizados ou funções JS obsoletas na base de código.
+- **Transparência de Projetos:** Remover seções e modais de "projetos em construção" ou "disponível em breve" quando o projeto for descontinuado.
 
 ## Estilo de Botões nos Projetos
 - Botões dentro de `.project-actions` seguem estilo **ghost/outline** (fundo transparente, borda sutil).
